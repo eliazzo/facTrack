@@ -73,6 +73,8 @@ async function authorize() {
   return client;
 }
 
+// CREATE A NEW MEETING
+
 /**
  * Creates a new meeting space.
 @param {OAuth2Client} authClient An authorized OAuth2 client.
@@ -93,13 +95,14 @@ async function createSpace(authClient) {
 authorize().then(createSpace).catch(console.error);
 **/
 
+// LIST TRANSCRIPTS
+
 // Imports the Meet library
 const {ConferenceRecordsServiceClient} = require('@google-apps/meet').v2;
-const conferenceid = '1WI0E9LwqQL09NrmpNvnj_QBtLaEvHIuqCJXQhzZNCwU'
-const parent = `conferenceRecords/${conferenceid}`
-
+const parent = 'conferenceRecords/90fa1731-7c59-455d-a8e8-39a6778850ef'// 'Invalid conference id'
 
 async function callListTranscripts(authClient) {
+    console.log('call list transcripts( )')
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient
@@ -108,19 +111,49 @@ const meetClient = new ConferenceRecordsServiceClient({
   const request = {
     parent,
   };
+  console.log({parent})
+
 
   // Run request
   const iterable = meetClient.listTranscriptsAsync(request);
+  console.log({iterable})
+  let found = false;
   for await (const response of iterable) {
-      console.log(response);
+      found = true;
+      console.log('Response:', response);
+  }
+
+  if (!found) {
+      console.log('No transcripts found for the given conference record.');
   }
 }
 
-// authorize().then(callListTranscripts).catch(console.error)
+authorize().then(callListTranscripts).catch(console.error)
+
+// GET SINGLE TRANSCRIPT USING NAME
+
+async function callGetTranscript( authClient) {
+    const name = 'spaces/CtB3UYEYaW4B' // 'Invalid resource name'
+        // Instantiates a client
+const meetClient = new ConferenceRecordsServiceClient({
+    authClient: authClient
+});
+  // Construct request
+  const request = {
+    name,
+  };
+
+  // Run request
+  const response = await meetClient.getTranscript(request);
+  console.log(response);
+}
+
+// authorize().then(callGetTranscript).catch(console.error)
 
 
 
 
+// LIST CONFERENCE RECORDS
 
 async function callListConferenceRecords(authClient) {
     // Instantiates a client
@@ -138,7 +171,24 @@ const meetClient = new ConferenceRecordsServiceClient({
   }
 }
 
+// authorize().then(callListConferenceRecords).catch(console.error)
 
-authorize().then(callListConferenceRecords).catch(console.error)
 
+// SEARCH FOR A CONFERENCE USING THE NAME
 
+async function callGetConferenceRecord(authClient) {
+    const name = 'conferenceRecords/f761e440-2c70-4e7d-a4de-1dc11d3b1e33'// 'Invalid resource name'
+    const meetClient = new ConferenceRecordsServiceClient({
+        authClient: authClient
+    });
+  // Construct request
+  const request = {
+    name,
+  };
+
+  // Run request
+  const response = await meetClient.getConferenceRecord(request);
+  console.log(response);
+}
+
+// authorize().then(callGetConferenceRecord).catch(console.error)
