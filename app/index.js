@@ -99,7 +99,7 @@ authorize().then(createSpace).catch(console.error);
 
 // Imports the Meet library
 const {ConferenceRecordsServiceClient} = require('@google-apps/meet').v2;
-const parent = 'conferenceRecords/90fa1731-7c59-455d-a8e8-39a6778850ef'// 'Invalid conference id'
+const parent = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54'
 
 async function callListTranscripts(authClient) {
     console.log('call list transcripts( )')
@@ -128,12 +128,12 @@ const meetClient = new ConferenceRecordsServiceClient({
   }
 }
 
-authorize().then(callListTranscripts).catch(console.error)
+// authorize().then(callListTranscripts).catch(console.error)
 
 // GET SINGLE TRANSCRIPT USING NAME
 
 async function callGetTranscript( authClient) {
-    const name = 'spaces/CtB3UYEYaW4B' // 'Invalid resource name'
+    const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' 
         // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient
@@ -148,7 +148,7 @@ const meetClient = new ConferenceRecordsServiceClient({
   console.log(response);
 }
 
-// authorize().then(callGetTranscript).catch(console.error)
+authorize().then(callGetTranscript).catch(console.error)
 
 
 
