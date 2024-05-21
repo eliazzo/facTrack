@@ -6,7 +6,12 @@ const {SpacesServiceClient} = require('@google-apps/meet').v2;
 const { auth } = require('google-auth-library');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/meetings.space.created'];
+const SCOPES = [
+    'https://www.googleapis.com/auth/meetings.space.created',
+    'https://www.googleapis.com/auth/drive.readonly',
+    'https://www.googleapis.com/auth/meetings.space.readonly',
+    'https://www.googleapis.com/auth/meetings'
+];
 
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
@@ -70,8 +75,8 @@ async function authorize() {
 
 /**
  * Creates a new meeting space.
- * @param {OAuth2Client} authClient An authorized OAuth2 client.
- */
+@param {OAuth2Client} authClient An authorized OAuth2 client.
+ 
 async function createSpace(authClient) {
   const meetClient = new SpacesServiceClient({
     authClient: authClient
@@ -86,3 +91,54 @@ async function createSpace(authClient) {
 }
 
 authorize().then(createSpace).catch(console.error);
+**/
+
+// Imports the Meet library
+const {ConferenceRecordsServiceClient} = require('@google-apps/meet').v2;
+const conferenceid = '1WI0E9LwqQL09NrmpNvnj_QBtLaEvHIuqCJXQhzZNCwU'
+const parent = `conferenceRecords/${conferenceid}`
+
+
+async function callListTranscripts(authClient) {
+    // Instantiates a client
+const meetClient = new ConferenceRecordsServiceClient({
+    authClient: authClient
+});
+  // Construct request
+  const request = {
+    parent,
+  };
+
+  // Run request
+  const iterable = meetClient.listTranscriptsAsync(request);
+  for await (const response of iterable) {
+      console.log(response);
+  }
+}
+
+// authorize().then(callListTranscripts).catch(console.error)
+
+
+
+
+
+async function callListConferenceRecords(authClient) {
+    // Instantiates a client
+const meetClient = new ConferenceRecordsServiceClient({
+    authClient: authClient
+});
+  // Construct request
+  const request = {
+  };
+
+  // Run request
+  const iterable = meetClient.listConferenceRecordsAsync(request);
+  for await (const response of iterable) {
+      console.log(response);
+  }
+}
+
+
+authorize().then(callListConferenceRecords).catch(console.error)
+
+
