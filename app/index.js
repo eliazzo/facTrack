@@ -78,6 +78,7 @@ async function authorize() {
 /**
  * Creates a new meeting space.
 @param {OAuth2Client} authClient An authorized OAuth2 client.
+**/
  
 async function createSpace(authClient) {
   const meetClient = new SpacesServiceClient({
@@ -92,8 +93,8 @@ async function createSpace(authClient) {
   console.log(`Meet URL: ${response[0].meetingUri}`);
 }
 
-authorize().then(createSpace).catch(console.error);
-**/
+// authorize().then(createSpace).catch(console.error);
+
 
 // LIST TRANSCRIPTS
 
@@ -149,6 +150,28 @@ const meetClient = new ConferenceRecordsServiceClient({
 }
 
 authorize().then(callGetTranscript).catch(console.error)
+
+// GET TRANSCRIPT ENTRY
+
+async function callGetTranscriptEntry(authClient) {
+    // conferenceRecords/{conferenceRecord}/transcripts/{transcript}/entries/{entry}
+    const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584/entries/oyf-nrjv-dhk' // 'Invalid resource name'
+    // Instantiates a client
+const meetClient = new ConferenceRecordsServiceClient({
+authClient: authClient
+})
+    // Construct request
+    const request = {
+      name,
+    };
+  
+    // Run request
+    const response = await meetClient.getTranscriptEntry(request);
+    console.log(response);
+  }
+  
+//   authorize().then(callGetTranscriptEntry).catch(console.error)
+
 
 
 
