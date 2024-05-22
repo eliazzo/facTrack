@@ -116,7 +116,7 @@ const meetClient = new ConferenceRecordsServiceClient({
 
 
   // Run request
-  const iterable = meetClient.listTranscriptsAsync(request);
+  const iterable = meetClient.listTranscriptEntriesAsync(request);
   console.log({iterable})
   let found = false;
   for await (const response of iterable) {
@@ -134,6 +134,7 @@ const meetClient = new ConferenceRecordsServiceClient({
 // GET SINGLE TRANSCRIPT USING NAME
 
 async function callGetTranscript( authClient) {
+    console.log('callGetTranscript()')
     const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' 
         // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
@@ -146,31 +147,43 @@ const meetClient = new ConferenceRecordsServiceClient({
 
   // Run request
   const response = await meetClient.getTranscript(request);
-  console.log(response);
+  console.log({response});
 }
 
-authorize().then(callGetTranscript).catch(console.error)
+// authorize().then(callGetTranscript).catch(console.error)
+
+
+
 
 // GET TRANSCRIPT ENTRY
 
 async function callGetTranscriptEntry(authClient) {
-    // conferenceRecords/{conferenceRecord}/transcripts/{transcript}/entries/{entry}
-    const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584/entries/oyf-nrjv-dhk' // 'Invalid resource name'
+    console.log('callGetTranscriptEntry()')
+
+    const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' // 'Invalid resource name'
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
 authClient: authClient
 })
     // Construct request
     const request = {
-      name,
+      parent: name,
     };
   
     // Run request
-    const response = await meetClient.getTranscriptEntry(request);
-    console.log(response);
-  }
+    const [response] = await meetClient.listTranscriptEntries(request);
+    if (response) {
+        response.forEach(entry => {
+            console.log('Transcript Entry:', entry.text);
+        });
+    } else {
+        console.log('No transcript entries found.');
+    }
+}
+
   
-//   authorize().then(callGetTranscriptEntry).catch(console.error)
+  
+  authorize().then(callGetTranscriptEntry).catch(console.error)
 
 
 
