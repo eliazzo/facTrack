@@ -100,9 +100,11 @@ async function createSpace(authClient) {
 
 // Imports the Meet library
 const {ConferenceRecordsServiceClient} = require('@google-apps/meet').v2;
-const parent = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54'
 
 async function callListTranscripts(authClient) {
+    console.log('callGetTranscriptEntry()')
+    const parent = await callListConferenceRecords(authClient)
+    console.log({parent})
     console.log('call list transcripts( )')
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
@@ -116,12 +118,14 @@ const meetClient = new ConferenceRecordsServiceClient({
 
 
   // Run request
-  const iterable = meetClient.listTranscriptEntriesAsync(request);
+  const iterable = meetClient.listTranscriptsAsync(request);
   console.log({iterable})
   let found = false;
   for await (const response of iterable) {
       found = true;
-      console.log('Response:', response);
+      console.log('Response:', response.name);
+      return response.name
+
   }
 
   if (!found) {
@@ -159,8 +163,9 @@ const meetClient = new ConferenceRecordsServiceClient({
 
 async function callGetTranscriptEntry(authClient) {
     console.log('callGetTranscriptEntry()')
+    const name = await callListTranscripts(authClient)
 
-    const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' // 'Invalid resource name'
+    // const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' 
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
 authClient: authClient
@@ -189,9 +194,10 @@ authClient: authClient
 
 
 
-// LIST CONFERENCE RECORDS
+// GET LATEST CONFERENCE NAME
 
 async function callListConferenceRecords(authClient) {
+    console.log('callListConferenceRecords()')
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient
@@ -203,16 +209,19 @@ const meetClient = new ConferenceRecordsServiceClient({
   // Run request
   const iterable = meetClient.listConferenceRecordsAsync(request);
   for await (const response of iterable) {
-      console.log(response);
+      console.log(response.name);
+      return response.name;
   }
 }
 
 // authorize().then(callListConferenceRecords).catch(console.error)
 
 
+
 // SEARCH FOR A CONFERENCE USING THE NAME
 
 async function callGetConferenceRecord(authClient) {
+    console.log('callGetConferenceRecord')
     const name = 'conferenceRecords/f761e440-2c70-4e7d-a4de-1dc11d3b1e33'// 'Invalid resource name'
     const meetClient = new ConferenceRecordsServiceClient({
         authClient: authClient
