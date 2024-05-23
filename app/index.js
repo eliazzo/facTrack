@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
-const {SpacesServiceClient} = require('@google-apps/meet').v2;
+const {SpacesServiceClient, ConferenceRecordsServiceClient} = require('@google-apps/meet').v2;
 const { auth } = require('google-auth-library');
 
 // If modifying these scopes, delete token.json.
@@ -80,30 +80,13 @@ async function authorize() {
 @param {OAuth2Client} authClient An authorized OAuth2 client.
 **/
  
-async function createSpace(authClient) {
-  const meetClient = new SpacesServiceClient({
-    authClient: authClient
-  });
-  // Construct request
-  const request = {
-  };
-
-  // Run request
-  const response = await meetClient.createSpace(request);
-  console.log(`Meet URL: ${response[0].meetingUri}`);
-}
-
-// authorize().then(createSpace).catch(console.error);
-
 
 // LIST TRANSCRIPTS
 
-// Imports the Meet library
-const {ConferenceRecordsServiceClient} = require('@google-apps/meet').v2;
-
 async function callListTranscripts(authClient) {
     console.log('callGetTranscriptEntry()')
-    const parent = await callListConferenceRecords(authClient)
+    const parent = 'conferenceRecords/d0239518-c792-4bed-bdea-84982a5a2bc1'
+    // const parent = await callListConferenceRecords(authClient)
     console.log({parent})
     console.log('call list transcripts( )')
     // Instantiates a client
@@ -133,13 +116,12 @@ const meetClient = new ConferenceRecordsServiceClient({
   }
 }
 
-// authorize().then(callListTranscripts).catch(console.error)
 
-// GET SINGLE TRANSCRIPT USING NAME
+/* GET SINGLE TRANSCRIPT USING NAME */
 
 async function callGetTranscript( authClient) {
     console.log('callGetTranscript()')
-    const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' 
+    const name =  'conferenceRecords/f761e440-2c70-4e7d-a4de-1dc11d3b1e33'
         // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient
@@ -154,7 +136,7 @@ const meetClient = new ConferenceRecordsServiceClient({
   console.log({response});
 }
 
-// authorize().then(callGetTranscript).catch(console.error)
+// authorize().then(callGetTranscript).catch(console.error) 
 
 
 
@@ -165,8 +147,6 @@ async function callGetTranscriptEntry(authClient) {
     console.log('callGetTranscriptEntry()')
     const name = await callListTranscripts(authClient)
 
-    // const name = 'conferenceRecords/5d2381ac-ef47-4921-9449-852c706d7b54/transcripts/e386573e-4d2e-4889-abf4-435a8101b584' 
-    // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
 authClient: authClient
 })
@@ -210,15 +190,14 @@ const meetClient = new ConferenceRecordsServiceClient({
   const iterable = meetClient.listConferenceRecordsAsync(request);
   for await (const response of iterable) {
       console.log(response.name);
-      return response.name;
+    //   return response.name;
   }
 }
 
-// authorize().then(callListConferenceRecords).catch(console.error)
+// authorize().then(callListConferenceRecords).catch(console.error) 
 
 
-
-// SEARCH FOR A CONFERENCE USING THE NAME
+/* SEARCH FOR A CONFERENCE USING THE NAME
 
 async function callGetConferenceRecord(authClient) {
     console.log('callGetConferenceRecord')
@@ -236,4 +215,4 @@ async function callGetConferenceRecord(authClient) {
   console.log(response);
 }
 
-// authorize().then(callGetConferenceRecord).catch(console.error)
+authorize().then(callGetConferenceRecord).catch(console.error) */
