@@ -41,7 +41,7 @@ async function loadSavedCredentialsIfExist() {
  * @param {OAuth2Client} client
  * @return {Promise<void>}
  */
-async function saveCredentials(client) {
+async function saveCredentials(client: { credentials: { refresh_token: any; }; }) {
   const content = await fs.readFile(CREDENTIALS_PATH);
   const keys = JSON.parse(content);
   const key = keys.installed || keys.web;
@@ -82,7 +82,7 @@ async function authorize() {
 
 // LIST CONFERENCE RECORDS AND GET MOST RECENT CONFERENCE NAME
 
-async function callListConferenceRecords(authClient, index) {
+async function callListConferenceRecords(authClient: any, index: number) {
   console.log('callListConferenceRecords()')
   // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
@@ -110,7 +110,7 @@ return(records[index])
 
 // LIST TRANSCRIPTS USING CONFERENCE NAME
 
-async function callListTranscripts(authClient) {
+async function callListTranscripts(authClient: any) {
     console.log('callListTranscripts()')
     const parent = await callListConferenceRecords(authClient, 0)
 
@@ -159,7 +159,7 @@ const meetClient = new ConferenceRecordsServiceClient({
 
 // GET TRANSCRIPT ENTRY
 
-async function callGetTranscriptEntry(authClient) {
+export async function callGetTranscriptEntry(authClient: any) {
     console.log('callGetTranscriptEntry()')
     const name = await callListTranscripts(authClient)
 
@@ -174,7 +174,7 @@ authClient: authClient
     // Run request
     const [response] = await meetClient.listTranscriptEntries(request);
     if (response) {
-        response.forEach(entry => {
+        response.forEach((entry: { text: string; }) => {
             console.log('Transcript Entry:', entry.text);
         });
     } else {
