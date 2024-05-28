@@ -82,7 +82,7 @@ async function authorize() {
 
 // LIST CONFERENCE RECORDS AND GET MOST RECENT CONFERENCE NAME
 
-async function callListConferenceRecords(authClient) {
+async function callListConferenceRecords(authClient, index) {
   console.log('callListConferenceRecords()')
   // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
@@ -94,23 +94,26 @@ const request = {
 
 // Run request
 const iterable = meetClient.listConferenceRecordsAsync(request);
+
+const records = []
+
 for await (const response of iterable) {
-    console.log(response.name);
-  //   return response.name;
+  records.push(response.name)
+
 }
+console.log(records[index])
+return(records[index])
 }
 
 // authorize().then(callListConferenceRecords).catch(console.error) 
  
 
-// LIST TRANSCRIPTS
+// LIST TRANSCRIPTS USING CONFERENCE NAME
 
 async function callListTranscripts(authClient) {
-    console.log('callListTranscripts')
-    const parent = 'conferenceRecords/d0239518-c792-4bed-bdea-84982a5a2bc1'
-    // const parent = await callListConferenceRecords(authClient)
-    console.log({parent})
-    console.log('call list transcripts( )')
+    console.log('callListTranscripts()')
+    const parent = await callListConferenceRecords(authClient, 0)
+
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient
@@ -119,12 +122,9 @@ const meetClient = new ConferenceRecordsServiceClient({
   const request = {
     parent,
   };
-  console.log({parent})
-
-
   // Run request
   const iterable = meetClient.listTranscriptsAsync(request);
-  console.log({iterable})
+
   let found = false;
   for await (const response of iterable) {
       found = true;
@@ -134,9 +134,26 @@ const meetClient = new ConferenceRecordsServiceClient({
   }
 
   if (!found) {
-      console.log('No transcripts found for the given conference record.');
+    console.log('No transcripts found for the latest conference record, trying the next conference record');
+    const parent = await callListConferenceRecords(authClient, 1)
+      // Construct request
+  const request = {
+    parent,
+  };
+  // Run request
+  const iterable = meetClient.listTranscriptsAsync(request);
+
+  let found = false;
+  for await (const response of iterable) {
+      found = true;
+      console.log('Response:', response.name);
+      return response.name
+
+  }
   }
 }
+
+// authorize().then(callListTranscripts).catch(console.error)
 
 
 
