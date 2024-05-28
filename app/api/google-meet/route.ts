@@ -13,9 +13,9 @@ const SCOPES = [
     'https://www.googleapis.com/auth/meetings'
 ];
 
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
+/* The file token.json stores the user's access and refresh tokens, and is
+created automatically when the authorization flow completes for the first
+time. */
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
@@ -73,7 +73,6 @@ async function authorize() {
   return client;
 }
 
-// CREATE A NEW MEETING
 
 /**
  * Creates a new meeting space.
@@ -104,8 +103,6 @@ for await (const response of iterable) {
 console.log(records[index])
 return(records[index])
 }
-
-// authorize().then(callListConferenceRecords).catch(console.error) 
  
 
 // LIST TRANSCRIPTS USING CONFERENCE NAME
@@ -153,9 +150,6 @@ const meetClient = new ConferenceRecordsServiceClient({
   }
 }
 
-// authorize().then(callListTranscripts).catch(console.error)
-
-
 
 // GET TRANSCRIPT ENTRY
 
@@ -184,7 +178,7 @@ authClient: authClient
 
   
   
-  authorize().then(callGetTranscriptEntry).catch(console.error)
+authorize().then(callGetTranscriptEntry).catch(console.error)
 
 
 
