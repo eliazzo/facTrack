@@ -41,7 +41,7 @@ async function loadSavedCredentialsIfExist() {
  * @param {OAuth2Client} client
  * @return {Promise<void>}
  */
-async function saveCredentials(client: { credentials: { refresh_token: any; }; }) {
+async function saveCredentials(client) {
   const content = await fs.readFile(CREDENTIALS_PATH);
   const keys = JSON.parse(content);
   const key = keys.installed || keys.web;
@@ -81,7 +81,7 @@ async function authorize() {
 
 // LIST CONFERENCE RECORDS AND GET MOST RECENT CONFERENCE NAME
 
-async function callListConferenceRecords(authClient: any, index: number) {
+async function callListConferenceRecords(authClient, index) {
   console.log('callListConferenceRecords()')
   // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
@@ -107,7 +107,7 @@ return(records[index])
 
 // LIST TRANSCRIPTS USING CONFERENCE NAME
 
-async function callListTranscripts(authClient: any) {
+async function callListTranscripts(authClient) {
     console.log('callListTranscripts()')
     const parent = await callListConferenceRecords(authClient, 0)
 
@@ -153,7 +153,7 @@ const meetClient = new ConferenceRecordsServiceClient({
 
 // GET TRANSCRIPT ENTRY
 
-export async function callGetTranscriptEntry(authClient: any) {
+async function callGetTranscriptEntry(authClient) {
     console.log('callGetTranscriptEntry()')
     const name = await callListTranscripts(authClient)
 
@@ -168,8 +168,9 @@ authClient: authClient
     // Run request
     const [response] = await meetClient.listTranscriptEntries(request);
     if (response) {
-        response.forEach((entry: { text: string; }) => {
+        response.forEach(entry => {
             console.log('Transcript Entry:', entry.text);
+            return({'Transcript Entry': entry.text})
         });
     } else {
         console.log('No transcript entries found.');
@@ -177,9 +178,9 @@ authClient: authClient
 }
 
   
-  
-authorize().then(callGetTranscriptEntry).catch(console.error)
+// authorize().then(callGetTranscriptEntry).catch(console.error)
 
+module.exports = { authorize, callGetTranscriptEntry } 
 
 
 

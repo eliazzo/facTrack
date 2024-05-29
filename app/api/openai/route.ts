@@ -1,6 +1,10 @@
-// import { callGetTranscriptEntry } from "../google-meet/route";
+const { authorize, callGetTranscriptEntry } = require( "../google-meet/route.ts");
 require('dotenv').config()
 const OpenAI = require("openai");
+
+const transcription = authorize().then(callGetTranscriptEntry).catch(console.error)
+
+
 
 const openai = new OpenAI({
     authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -10,14 +14,11 @@ const openai = new OpenAI({
 
 
 async function main() {
-    const stream = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: "Say this is a test" }],
-        stream: true,
+    const completion = await openai.completions.create({
+        model: 'gpt-3.5-turbo-instruct',
+        prompt: `Translate the final returned value into shakespearean english: ${transcription}`
     });
-    for await (const chunk of stream) {
-        process.stdout.write(chunk.choices[0]?.delta?.content || "");
-    }
-}
 
-console.log(main());
+    console.log(completion.choices[0].text)
+}
+main();
