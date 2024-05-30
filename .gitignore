@@ -3,6 +3,7 @@
 # Ignore credentials and token files
 credentials.json
 token.json
+.env
 
 
 # dependencies
