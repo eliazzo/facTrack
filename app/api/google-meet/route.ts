@@ -41,7 +41,9 @@ async function loadSavedCredentialsIfExist() {
  * @param {OAuth2Client} client
  * @return {Promise<void>}
  */
-async function saveCredentials(client) {
+
+async function saveCredentials(client: AuthStructure) {
+  console.log(client)
   const content = await fs.readFile(CREDENTIALS_PATH);
   const keys = JSON.parse(content);
   const key = keys.installed || keys.web;
@@ -79,9 +81,43 @@ async function authorize() {
 @param {OAuth2Client} authClient An authorized OAuth2 client.
 **/
 
+/** AuthStructure types created with gpt */
+const kCapture = Symbol('kCapture');
+
+interface Credentials {
+  refresh_token: string;
+}
+
+interface DefaultTransporter {}
+
+interface UserRefreshClient {
+  _events: Record<string, any>;
+  _eventsCount: number;
+  _maxListeners?: number;
+  transporter: DefaultTransporter;
+  credentials: Credentials;
+  eagerRefreshThresholdMillis: number;
+  forceRefreshOnFailure: boolean;
+  certificateCache: Record<string, any>;
+  certificateExpiry: Date | null;
+  certificateCacheFormat: string;
+  refreshTokenPromises: Map<any, any>;
+  _clientId: string;
+  _clientSecret: string;
+  redirectUri?: string;
+  _refreshToken: string;
+  quotaProjectId?: string;
+  [key: symbol]: boolean;
+}
+
+interface AuthStructure {
+  credentials: any;
+  authClient: UserRefreshClient;
+}
+
 // LIST CONFERENCE RECORDS AND GET MOST RECENT CONFERENCE NAME
 
-async function callListConferenceRecords(authClient, index) {
+async function callListConferenceRecords(authClient: AuthStructure, index: number) {
   console.log('callListConferenceRecords()')
   // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
@@ -107,7 +143,7 @@ return(records[index])
 
 // LIST TRANSCRIPTS USING CONFERENCE NAME
 
-async function callListTranscripts(authClient) {
+async function callListTranscripts(authClient: AuthStructure) {
     console.log('callListTranscripts()')
     const parent = await callListConferenceRecords(authClient, 0)
 
@@ -153,7 +189,8 @@ const meetClient = new ConferenceRecordsServiceClient({
 
 // GET TRANSCRIPT ENTRY
 
-async function callGetTranscriptEntry(authClient) {
+async function callGetTranscriptEntry(authClient: AuthStructure) {
+  // console.log({authClient})
     console.log('callGetTranscriptEntry()')
     const name = await callListTranscripts(authClient)
 
@@ -168,7 +205,7 @@ authClient: authClient
     // Run request
     const [response] = await meetClient.listTranscriptEntries(request);
     if (response) {
-        response.forEach(entry => {
+        response.forEach((entry: { text: string; }) => {
             console.log('Transcript Entry:', entry.text);
             return({'Transcript Entry': entry.text})
         });
@@ -178,7 +215,7 @@ authClient: authClient
 }
 
   
-// authorize().then(callGetTranscriptEntry).catch(console.error)
+authorize().then(callGetTranscriptEntry).catch(console.error)
 
 module.exports = { authorize, callGetTranscriptEntry } 
 
