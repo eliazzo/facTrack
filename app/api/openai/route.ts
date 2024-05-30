@@ -21,4 +21,4 @@ async function main() {
 
     console.log(completion.choices[0].text)
 }
-main();
+// main();

@@ -215,7 +215,7 @@ authClient: authClient
 }
 
   
-authorize().then(callGetTranscriptEntry).catch(console.error)
+// authorize().then(callGetTranscriptEntry).catch(console.error)
 
 module.exports = { authorize, callGetTranscriptEntry } 
 
