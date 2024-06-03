@@ -17,7 +17,7 @@ const openai = new OpenAI({
 async function main() {
     const completion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
-        messages: [{ role: "system", content: `Outline the action points from the following meeting transcript: ${dummyTranscript}` }],
+        messages: [{ role: "system", content: `Provide me with a short overview of the main purpose of the meeting using the following meeting transcript. Then, provide me with a bullet point list of the key items. Finally, outline the action points from the following meeting transcript : ${dummyTranscript}` }],
   });
 
     console.log(completion.choices[0])
