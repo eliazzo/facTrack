@@ -60,6 +60,8 @@ return(records)
  
 
 // LIST TRANSCRIPTS USING CONFERENCE NAME
+/* The use of promise.all is scrambling the order of the transcript names
+and resulting in a different transcript entry being fetched each time it is called */
 
 async function callListTranscripts(authClient: AuthStructure) {
     const parents = await callListConferenceRecords(authClient)
