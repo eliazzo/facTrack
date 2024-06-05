@@ -54,7 +54,6 @@ for await (const response of iterable) {
   records.push(response.name)
 
 }
-console.log("CALL LIST TRASNCRIPT RECORDS:", records)
 return(records)
 }
 
@@ -63,16 +62,14 @@ return(records)
 // LIST TRANSCRIPTS USING CONFERENCE NAME
 
 async function callListTranscripts(authClient: AuthStructure) {
-
     const parents = await callListConferenceRecords(authClient)
-    console.log("PARENTS: ", parents)
 
     // Instantiates a client
 const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient
 });
 
-let names: any[] = []
+let names: string[] = []
 
 const promises = parents.map(async parent => {
     // Construct request
@@ -91,7 +88,6 @@ const promises = parents.map(async parent => {
 await Promise.all(promises);
 console.log("NAMES: ", names);
 return names[0]
-
 }
 
 
@@ -99,8 +95,6 @@ return names[0]
 // GET TRANSCRIPT ENTRY
 
 async function callGetTranscriptEntry(authClient: AuthStructure) {
-  // console.log({authClient})
-    console.log('callGetTranscriptEntry()')
     const name = await callListTranscripts(authClient)
 
 const meetClient = new ConferenceRecordsServiceClient({
@@ -114,7 +108,7 @@ authClient: authClient
   // Run request
   const iterable = meetClient.listTranscriptEntriesAsync(request);
   for await (const response of iterable) {
-      console.log(response);
+      console.log("TEXT: ", response.text);
   }
 }
 
