@@ -1,6 +1,5 @@
 const { authorize } = require("./authorize")
-const { SpacesServiceClient, ConferenceRecordsServiceClient } =
-  require("@google-apps/meet").v2
+const { ConferenceRecordsServiceClient } = require("@google-apps/meet").v2
 
 /** authStructure type created with gpt */
 const kCapture = Symbol("kCapture")
@@ -35,7 +34,8 @@ interface AuthStructure {
   credentials: any
   authClient: UserRefreshClient
 }
-// LIST CONFERENCE RECORDS AND GET MOST RECENT CONFERENCE NAME
+
+/* List conference records */
 
 async function callListConferenceRecords(authClient: AuthStructure) {
   // Instantiates a client
@@ -56,9 +56,7 @@ async function callListConferenceRecords(authClient: AuthStructure) {
   return records
 }
 
-// LIST TRANSCRIPTS USING CONFERENCE NAME
-/* The use of promise.all is scrambling the order of the transcript names
-and resulting in a different transcript entry being fetched each time it is called */
+/* Get latest transcript name using conference records */
 
 async function callListTranscripts(authClient: AuthStructure) {
   const parents = await callListConferenceRecords(authClient)
@@ -68,7 +66,7 @@ async function callListTranscripts(authClient: AuthStructure) {
     authClient: authClient,
   })
 
-  let names: string[] = []
+  let names: any = []
 
   const promises = parents.map(async (parent) => {
     // Construct request
@@ -80,15 +78,20 @@ async function callListTranscripts(authClient: AuthStructure) {
     const iterable = meetClient.listTranscriptsAsync(request)
 
     for await (const response of iterable) {
-      names.push(response.name)
+      names.push(response)
     }
   })
+
   await Promise.all(promises)
-  console.log("NAMES: ", names)
-  return names[0]
+
+  names.sort((x: any, y: any) => {
+    return parseInt(y.endTime.seconds, 10) - x.endTime.seconds
+  })
+
+  return names[0].name
 }
 
-// GET TRANSCRIPT ENTRY
+/* Get transcript entry using latest transcript name */
 
 async function callGetTranscriptEntry(authClient: AuthStructure) {
   const name = await callListTranscripts(authClient)
@@ -108,6 +111,6 @@ async function callGetTranscriptEntry(authClient: AuthStructure) {
   }
 }
 
-// authorize().then(callGetTranscriptEntry).catch(console.error)
+authorize().then(callGetTranscriptEntry).catch(console.error)
 
 module.exports = { authorize, callGetTranscriptEntry }
