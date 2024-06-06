@@ -35,12 +35,12 @@ body {
 @layer base {
   h1 {
     font-size: x-large;
-    font-family: 'Menlo';
+    font-family: "Menlo";
     font-weight: 500;
   }
   h2 {
     font-size: large;
-    font-family: 'Times New Roman';
+    font-family: "Times New Roman";
   }
   p {
     font-size: medium;

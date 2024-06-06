@@ -1,23 +1,23 @@
-const fs = require('fs').promises;
-const path = require('path');
-const process = require('process');
-const {authenticate} = require('@google-cloud/local-auth');
+const fs = require("fs").promises
+const path = require("path")
+const process = require("process")
+const { authenticate } = require("@google-cloud/local-auth")
 
-const { auth } = require('google-auth-library');
+const { auth } = require("google-auth-library")
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
-    'https://www.googleapis.com/auth/meetings.space.created',
-    'https://www.googleapis.com/auth/drive.readonly',
-    'https://www.googleapis.com/auth/meetings.space.readonly',
-    'https://www.googleapis.com/auth/meetings'
-];
+  "https://www.googleapis.com/auth/meetings.space.created",
+  "https://www.googleapis.com/auth/drive.readonly",
+  "https://www.googleapis.com/auth/meetings.space.readonly",
+  "https://www.googleapis.com/auth/meetings",
+]
 
 /* The file token.json stores the user's access and refresh tokens, and is
 created automatically when the authorization flow completes for the first
 time. */
-const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+const TOKEN_PATH = path.join(process.cwd(), "token.json")
+const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -26,12 +26,12 @@ const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
  */
 async function loadSavedCredentialsIfExist() {
   try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content);
-    return auth.fromJSON(credentials);
+    const content = await fs.readFile(TOKEN_PATH)
+    const credentials = JSON.parse(content)
+    return auth.fromJSON(credentials)
   } catch (err) {
-    console.log(err);
-    return null;
+    console.log(err)
+    return null
   }
 }
 
@@ -44,16 +44,16 @@ async function loadSavedCredentialsIfExist() {
 
 async function saveCredentials(client: any) {
   console.log(client)
-  const content = await fs.readFile(CREDENTIALS_PATH);
-  const keys = JSON.parse(content);
-  const key = keys.installed || keys.web;
+  const content = await fs.readFile(CREDENTIALS_PATH)
+  const keys = JSON.parse(content)
+  const key = keys.installed || keys.web
   const payload = JSON.stringify({
-    type: 'authorized_user',
+    type: "authorized_user",
     client_id: key.client_id,
     client_secret: key.client_secret,
     refresh_token: client.credentials.refresh_token,
-  });
-  await fs.writeFile(TOKEN_PATH, payload);
+  })
+  await fs.writeFile(TOKEN_PATH, payload)
 }
 
 /**
@@ -61,27 +61,23 @@ async function saveCredentials(client: any) {
  *
  */
 async function authorize() {
-  let client = await loadSavedCredentialsIfExist();
+  let client = await loadSavedCredentialsIfExist()
   if (client) {
-    return client;
+    return client
   }
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
-  });
+  })
   if (client.credentials) {
-    await saveCredentials(client);
+    await saveCredentials(client)
   }
-  return client;
+  return client
 }
-
 
 /**
  * Creates a new meeting space.
 @param {OAuth2Client} authClient An authorized OAuth2 client.
 **/
 
-
-
-
-module.exports = {authorize}
+module.exports = { authorize }
