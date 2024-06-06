@@ -1,6 +1,5 @@
 const { authorize } = require("./authorize")
-const { SpacesServiceClient, ConferenceRecordsServiceClient } =
-  require("@google-apps/meet").v2
+const { ConferenceRecordsServiceClient } = require("@google-apps/meet").v2
 
 /** authStructure type created with gpt */
 const kCapture = Symbol("kCapture")
