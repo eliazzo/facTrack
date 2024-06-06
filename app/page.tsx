@@ -5,9 +5,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-row items-center justify-between p-16">
       <div className="flex flex-col">
-      <TranscriptCard/>
+        <TranscriptCard />
       </div>
-      <SelectedTranscript/>
+      <SelectedTranscript />
     </main>
-  );
+  )
 }

@@ -1,21 +1,19 @@
 const { authorize } = require("../google-meet/authorize")
 const { callGetTranscriptEntry } = require("../google-meet/getTranscript")
-require('dotenv').config()
-const OpenAI = require("openai");
+require("dotenv").config()
+const OpenAI = require("openai")
 const temporaryTranscript = require("./temporaryTranscript")
 
 // const transcription = authorize().then(callGetTranscriptEntry).catch(console.error)
 
 const openai = new OpenAI({
-    authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-    organization: "org-nYbqgo3O0LNnYYAoKAmApBfx",
-    project: process.env.PROJECT_ID,
-});
-
-
+  authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+  organization: "org-nYbqgo3O0LNnYYAoKAmApBfx",
+  project: process.env.PROJECT_ID,
+})
 
 async function processTranscript() {
-    const userMessage = `I will provide a transcript of a work meeting for founders and coders (a non-profit coding bootcamp based in London) \n
+  const userMessage = `I will provide a transcript of a work meeting for founders and coders (a non-profit coding bootcamp based in London) \n
         
         
     Organise this meeting into useful notes. Be highly organised, using headers and bullet points. Give me the output in a json object in the same format as the one I have included at the bottom. capture the 
@@ -37,14 +35,15 @@ actions:  "- John to conduct weekly check-ins with struggling students \n - Mike
 transcript: \n """${JSON.stringify(temporaryTranscript)}"""\n
 `
 
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      { role: "system", content: "You are an experienced admin lead. " },
+      { role: "user", content: userMessage },
+    ],
+    max_tokens: 500,
+  })
 
-    const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [{ role: "system", content: "You are an experienced admin lead. "},
-        { role: "user", content: userMessage}],
-max_tokens: 500,
-  });
-
-    console.log(completion.choices[0])
+  console.log(completion.choices[0])
 }
-processTranscript();
+processTranscript()
