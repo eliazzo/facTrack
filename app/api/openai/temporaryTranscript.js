@@ -1,4 +1,4 @@
-const dummyTranscript = `
+const temporaryTranscript = `
 Curriculum concotions (2024-01-23 12:07 GMT) – Transcript
 Attendees
 Alphonso Varela, Beth Azzopardi, Dan Sofer, Ivan Gonzalez
@@ -276,4 +276,4 @@ Dan Sofer: Okay.
 Meeting ended after 00:52:22 👋
 `
 
-export default dummyTranscript
+export default temporaryTranscript
