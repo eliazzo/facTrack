@@ -1,8 +1,8 @@
+require("dotenv").config()
 const { MongoClient } = require("mongodb")
 
 // Replace the uri string with your connection string.
-const uri =
-  "mongodb+srv://admin:TOVbwkvwjrpQf0r0@factrack0.9xgcqcx.mongodb.net/?retryWrites=true&w=majority&appName=facTrack0"
+const uri = process.env.MONGODB_URI
 
 const client = new MongoClient(uri)
 
