@@ -2,17 +2,11 @@
 
 export const SelectedTranscript: React.FC = (/* meeting card data */) => {
   return (
-    <div className="min-h-screen –border-solid border-2 border-black m-2 p-10 w-8/12">
+    <div className="min-h-screen border-solid border-2 border-black m-2 p-10 w-8/12">
       <h1 className="text-center">Curriculum Concotions</h1>
-      <h2 className="mt-5"> Agenda </h2>
-      <p>
-        Ben & Sarah creating content for National Apprenticeship Week, attending
-        related events. Shaughn discussing curriculum development & leading
-        support sessions. Dan promoting Unblock during Patient Week. Sarah
-        requesting newsletter content by todays deadline. Events for newsletter
-        need clarification.
-      </p>
-      <h2> Key Notes</h2>
+      <h2 className="mt-5">Attendees</h2>
+      <p>Ben, Sarah, Dan, Nich</p>
+      <h2>key discussion points</h2>
       <p>
         National apprenticeship week content: Ben and Sarah are focusing on
         creating content for National apprenticeship week and attending events
