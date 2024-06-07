@@ -1,38 +1,77 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# facTrack
 
-## Getting Started
+facTrack is an AI-powered tool that transcribes and summarises meeting notes in real-time. This tool leverages external APIs for language processing, providing an efficient way to capture and organise meeting discussions.
 
-First, run the development server:
+## Installation
+
+To get started, clone the repository and install the necessary dependencies using npm:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/facTrack.git
+cd facTrack
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Configuration**: Ensure you have the necessary API keys for the external language processing services. Add these keys to your environment variables or a configuration file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. **Running the Application**: Start the application by running:
 
-## Learn More
+```bash
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Using the Tool**:
+   - Open the application in your browser.
+   - Start a new meeting and enable the microphone to begin transcribing.
+   - The tool will automatically process and display real-time transcription and summarised notes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+We welcome contributions to improve facTrack. Please follow these steps:
 
-## Deploy on Vercel
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/your-feature-name`).
+5. Open a pull request to discuss and merge your changes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Please make sure to update tests as appropriate.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
 
-# facTrack
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Authors and Acknowledgment
+
+- **Your Name** - _Initial work_ - [yourusername](https://github.com/yourusername)
+- Thanks to [Founders And Coders](https://www.foundersandcoders.com) for their support and training.
+
+## Project Status
+
+The project is currently in development. Future improvements include adding more robust error handling, improving the UI, and enhancing the summarisation prompt.
+
+## Support
+
+For support, please open an issue on the [GitHub repository](https://github.com/yourusername/ai-meeting-notes-taker/issues).
+
+## Roadmap
+
+- **Version 1.0**: Initial release with basic transcription and summarisation features.
+- **Version 1.1**: UI improvements and bug fixes.
+- **Version 2.0**: Enhanced summarisation algorithms and support for multiple languages.
+
+## FAQ
+
+### What external APIs are used?
+
+We use Google Meet API to access meet transcripts and OpenAi for text summarisation.
+
+### How do I obtain API keys?
+
+You can sign up for Google Cloud services and obtain API keys from the Google Cloud Console.
+
+### Is this project open for contributions?
+
+Yes, we welcome contributions! Please see the Contributing section for more details.
