@@ -105,12 +105,14 @@ async function callGetTranscriptEntry(authClient: AuthStructure) {
   }
 
   // Run request
+  let transcriptEntries = []
+
   const iterable = meetClient.listTranscriptEntriesAsync(request)
   for await (const response of iterable) {
-    console.log("TEXT: ", response.text)
+    transcriptEntries.push(response)
   }
-}
 
-authorize().then(callGetTranscriptEntry).catch(console.error)
+  return transcriptEntries.map((entry) => entry.text).join(" ")
+}
 
 module.exports = { authorize, callGetTranscriptEntry }

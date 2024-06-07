@@ -2,9 +2,6 @@ const { authorize } = require("../google-meet/authorize")
 const { callGetTranscriptEntry } = require("../google-meet/getTranscript")
 require("dotenv").config()
 const OpenAI = require("openai")
-const temporaryTranscript = require("./temporaryTranscript")
-
-// const transcription = authorize().then(callGetTranscriptEntry).catch(console.error)
 
 const openai = new OpenAI({
   authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -13,6 +10,9 @@ const openai = new OpenAI({
 })
 
 async function processTranscript() {
+  const transcription = await authorize()
+    .then(callGetTranscriptEntry)
+    .catch(console.error)
   const userMessage = `I will provide a transcript of a work meeting for founders and coders (a non-profit coding bootcamp based in London) \n
         
         
@@ -32,7 +32,7 @@ attendees: "John, Paula, Mike",
 actions:  "- John to conduct weekly check-ins with struggling students \n - Mike to email all students with schedule changes \n - Paula to create a new curriculum proposal"
 }
 """\n
-transcript: \n """${JSON.stringify(temporaryTranscript)}"""\n
+transcript: \n """${transcription}"""\n
 `
 
   const completion = await openai.chat.completions.create({
