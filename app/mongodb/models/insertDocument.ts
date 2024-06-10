@@ -1,11 +1,7 @@
 require("dotenv").config()
-const { MongoClient } = require("mongodb")
+const client = require("../newClient")
 
-const uri = process.env.MONGODB_URI
-
-const client = new MongoClient(uri)
-
-async function run() {
+async function insertDocument() {
   try {
     await client.connect()
 
@@ -28,4 +24,4 @@ async function run() {
     await client.close()
   }
 }
-run().catch(console.dir)
+insertDocument().catch(console.dir)
