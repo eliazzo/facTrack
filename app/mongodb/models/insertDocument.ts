@@ -1,7 +1,6 @@
 require("dotenv").config()
 const { MongoClient } = require("mongodb")
 
-// Replace the uri string with your MongoDB deployment's connection string.
 const uri = process.env.MONGODB_URI
 
 const client = new MongoClient(uri)
@@ -12,7 +11,7 @@ async function run() {
 
     const database = client.db("facTrack")
     const transcripts = database.collection("transcripts")
-    // create a document to be inserted
+    // replace with processed data returned by openai
     const doc = {
       title: "Support Circle Planning",
       attendees: "Beth, Tavie, Jess",
