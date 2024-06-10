@@ -9,12 +9,14 @@ async function insertDocument() {
     const transcripts = database.collection("transcripts")
     // replace with processed data returned by openai
     const doc = {
-      title: "Support Circle Planning",
+      title: "Project progress weekly check-in",
       attendees: "Beth, Tavie, Jess",
       key_discussion_points: "",
       actions:
         "- share callouts on Discord \n - reach out to all women/non-binary people on airtable and offer them the support circles as well as those who previously attended support circles \n - Have a mailing list \n - save the date \n - Send out Safeguarding details for all mentors",
+      createdAt: new Date(),
     }
+
     const result = await transcripts.insertOne(doc)
 
     console.log(
