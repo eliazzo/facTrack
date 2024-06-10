@@ -6,7 +6,6 @@ async function getDocument() {
     const transcripts = database.collection("transcripts")
 
     const cursor = await transcripts.find({}).sort({ _id: -1 }).limit(1)
-    // const latestTranscript = await cursor.next()
     for await (const doc of cursor) {
       console.dir(doc)
     }
