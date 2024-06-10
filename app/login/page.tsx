@@ -1,27 +1,15 @@
-"use client"
-import { useState } from "react"
-import { redirect } from "next/navigation"
-
-export default function SignUp() {
-  const [username, setUsername] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-
+export default function Login() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-16">
-      <h1>login page</h1>
+    <div className="flex min-h-screen flex-col items-center p-16">
+      <h1>sign up page</h1>
       <form>
+        {/* <form action={}> */}
         <p>username</p>
-        <input
-          placeholder="username"
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
+        <input placeholder="username" name="username"></input>
         <p>password</p>
-        <input
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <button>submit</button>
+        <input placeholder="password" name="password"></input>
+        <button type="submit">submit</button>
       </form>
-    </main>
+    </div>
   )
 }
