@@ -1,10 +1,10 @@
 "use client"
 
 type AuthFormProps = {
-  onSubmit: any // needs to be replaced with onSubmit return value
+  onSubmit: (formData: FormData) => Promise<void>
 }
-//@ts-ignore
-export default function AuthForm<AuthFormProps>({ onSubmit }) {
+
+export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
   return (
     <div className="flex min-h-screen flex-col items-center p-16">
       <h1>login page</h1>
