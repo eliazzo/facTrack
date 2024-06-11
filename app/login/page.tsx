@@ -23,6 +23,7 @@ export default function Login() {
     const user = await users.findOne(query)
 
     if (!user) {
+      console.log("user does not exist")
       return
     }
     const checkPassword = await bcrypt.compare(password, user.password)
