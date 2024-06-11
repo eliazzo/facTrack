@@ -31,11 +31,12 @@ export default function Login() {
       return
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
-      expiresIn: "1h",
-    })
-
-    redirect(`/token?token=${token}`)
+    if (process.env.JWT_TOKEN) {
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
+        expiresIn: "1h",
+      })
+      redirect(`/token?token=${token}`)
+    }
   }
   return <AuthForm onSubmit={handleSubmit} />
 }
