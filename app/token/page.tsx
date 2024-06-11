@@ -1,20 +1,22 @@
 "use client"
-
 import { useEffect, useState } from "react"
+import { redirect } from "next/navigation"
 
-export default function ProcessToken() {
+export const HandleToken = () => {
   const [token, setToken] = useState<string>("")
-  console.log("auth form")
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const tokenFromParams = params.get("token")
-    console.log({ tokenFromParams })
 
     if (tokenFromParams) {
       setToken(tokenFromParams)
       localStorage.setItem("token", token)
-      window.location.replace("/")
+      redirect("/")
     }
   }, [token, setToken])
+
   return <h1>logging in</h1>
 }
+
+export default HandleToken

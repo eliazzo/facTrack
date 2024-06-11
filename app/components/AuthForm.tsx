@@ -18,3 +18,5 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
     </div>
   )
 }
+
+export default AuthForm
