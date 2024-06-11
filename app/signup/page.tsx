@@ -3,16 +3,16 @@ const client = require("../mongodb/newClient")
 const bcrypt = require("bcrypt")
 
 export default function SignUp() {
-  async function test(formData: FormData) {
+  async function signup(formData: FormData) {
     "use server"
     const data = {
-      username: formData.get("username") as string,
-      password: formData.get("password") as string,
+      username: formData.get("username"),
+      password: formData.get("password"),
     }
     const database = client.db("facTrack")
     const users = database.collection("users")
-    const hashedPassword = await bcrypt.hash(data.password, 10)
     const username = await data.username
+    const hashedPassword = await bcrypt.hash(data.password, 10)
     try {
       await users.insertOne({ username, password: hashedPassword })
       console.log("new user created")
@@ -21,13 +21,13 @@ export default function SignUp() {
     }
 
     console.log(data)
-    redirect("/")
+    redirect("/login")
   }
 
   return (
     <div className="flex min-h-screen flex-col items-center p-16">
       <h1>sign up page</h1>
-      <form action={test}>
+      <form action={signup}>
         <p>username</p>
         <input placeholder="username" name="username"></input>
         <p>password</p>
