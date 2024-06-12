@@ -1,23 +1,41 @@
+import { redirect } from "next/navigation"
+import bcrypt from "bcrypt"
+
+import AuthForm from "../components/AuthForm"
+import { client } from "../mongodb/newClient"
+
 export default function SignUp() {
-  //   const [username, setUsername] = useState<string>("")
-  //   const [password, setPassword] = useState<string>("")
+  async function signUp(formData: FormData) {
+    "use server"
+    const data = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    }
+    const database = client.db("facTrack")
+    const users = database.collection("users")
+
+    if (
+      typeof data.username !== "string" ||
+      typeof data.password !== "string"
+    ) {
+      console.error("Invalid form data")
+      return
+    }
+
+    const username = data.username
+    const hashedPassword = bcrypt.hash(data.password, 10)
+
+    try {
+      await users.insertOne({ username, password: hashedPassword })
+      console.log("new user created")
+    } catch (error) {
+      console.log(error, { error: "User creation failed" })
+    }
+
+    redirect("/login")
+  }
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-16">
-      <h1>sign up page</h1>
-      {/* <form onSubmit={() => handler(username, password)}>
-          <p>username</p>
-          <input
-            placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
-          ></input>
-          <p>password</p>
-          <input
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
-          <button>submit</button>
-        </form> */}
-    </main>
+    <AuthForm onSubmit={signUp} title={"Sign up page"} action={"Sign up"} />
   )
 }
