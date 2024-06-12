@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-row items-center justify-between p-16">
       <div className="flex flex-col">
-        <Button text={""} handleClick={handleClick} />
+        <Button text={""} onClick={handleClick} />
         <TranscriptCard />
       </div>
       <SelectedTranscript />
