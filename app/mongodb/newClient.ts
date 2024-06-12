@@ -1,8 +1,13 @@
-require("dotenv").config()
-const { MongoClient } = require("mongodb")
+import "dotenv/config"
+import { MongoClient } from "mongodb"
 
-// Replace the uri string with your connection string.
 const uri = process.env.MONGODB_URI
+
+if (!uri) {
+  throw new Error(
+    "Please define the MONGODB_URI environment variable inside .env.local"
+  )
+}
 const client = new MongoClient(uri)
 
 module.exports = client
