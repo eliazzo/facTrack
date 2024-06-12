@@ -8,6 +8,4 @@ if (!uri) {
     "Please define the MONGODB_URI environment variable inside .env.local"
   )
 }
-const client = new MongoClient(uri)
-
-module.exports = client
+export const client = new MongoClient(uri)
