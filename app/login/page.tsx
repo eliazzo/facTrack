@@ -13,7 +13,6 @@ export default function Login() {
       username: formData.get("username"),
       password: formData.get("password"),
     }
-    console.log("login data: ", data)
 
     const username = await data.username
     const password = await data.password
@@ -23,14 +22,12 @@ export default function Login() {
     const query = { username: username }
     const user = await users.findOne(query)
 
-    console.log({ user })
     if (!user) {
       console.log("user does not exist")
       return
     }
 
     const checkPassword = await bcrypt.compare(password, user.password)
-    console.log({ checkPassword })
     if (!checkPassword) {
       return
     }
