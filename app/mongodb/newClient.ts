@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { MongoClient } from "mongodb"
+import mongodb from "mongodb"
 
 const uri = process.env.MONGODB_URI
 
@@ -9,4 +9,5 @@ if (!uri) {
   )
 }
 
-export const client = new MongoClient(uri, {})
+export const client = new mongodb.MongoClient(uri, {})
+// new MongoClient(uri, {})
