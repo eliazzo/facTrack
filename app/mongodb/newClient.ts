@@ -9,6 +9,4 @@ if (!uri) {
   )
 }
 
-const client = new MongoClient(uri)
-
-module.exports = client
+export const client = new MongoClient(uri)

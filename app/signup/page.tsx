@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation"
+import bcrypt from "bcrypt"
+
 import AuthForm from "../components/AuthForm"
-const client = require("../mongodb/newClient")
-const bcrypt = require("bcrypt")
+import { client } from "../mongodb/newClient"
 
 export default function SignUp() {
   async function signUp(formData: FormData) {
@@ -12,8 +13,17 @@ export default function SignUp() {
     }
     const database = client.db("facTrack")
     const users = database.collection("users")
-    const username = await data.username
-    const hashedPassword = await bcrypt.hash(data.password, 10)
+
+    if (
+      typeof data.username !== "string" ||
+      typeof data.password !== "string"
+    ) {
+      console.error("Invalid form data")
+      return
+    }
+
+    const username = data.username
+    const hashedPassword = bcrypt.hash(data.password, 10)
 
     try {
       await users.insertOne({ username, password: hashedPassword })
