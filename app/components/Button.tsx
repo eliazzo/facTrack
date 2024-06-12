@@ -2,7 +2,7 @@
 
 type ButtonProps = {
   text: string
-  handleClick: any // some type of function
+  handleClick: () => void
 }
 
 export const Button: React.FC<ButtonProps> = ({ text, handleClick }) => {

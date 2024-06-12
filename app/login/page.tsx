@@ -1,9 +1,10 @@
 require("dotenv").config()
+const bcrypt = require("bcrypt")
 import { redirect } from "next/navigation"
+import jwt from "jsonwebtoken"
+
 import AuthForm from "../components/AuthForm"
 const client = require("../mongodb/newClient")
-const bcrypt = require("bcrypt")
-import jwt from "jsonwebtoken"
 
 export default function Login() {
   async function login(formData: FormData) {
