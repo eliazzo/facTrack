@@ -2,6 +2,7 @@ require("dotenv").config()
 const bcrypt = require("bcrypt")
 import { redirect } from "next/navigation"
 import jwt from "jsonwebtoken"
+import { cookies } from "next/headers"
 
 import AuthForm from "../components/AuthForm"
 const client = require("../mongodb/newClient")
@@ -38,7 +39,9 @@ export default function Login() {
         expiresIn: "1h",
       })
     }
-    redirect(`/token?token=${token}`)
+    if (token) cookies().set("token", token, { expires: 1, secure: true })
+
+    redirect("/")
   }
   return <AuthForm onSubmit={login} title={"Login page"} action={"Log in"} />
 }
