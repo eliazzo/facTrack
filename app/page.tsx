@@ -7,12 +7,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-row items-center justify-between p-16">
       <div className="flex flex-col">
-        <Button
-          text={""}
-          handleClick={function (): void {
-            throw new Error("Function not implemented.")
-          }}
-        />
+        <Button text={""} handleClick={() => console.log("button function")} />
         <TranscriptCard />
       </div>
       <SelectedTranscript />
