@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import bcrypt from "bcrypt"
 
 import AuthForm from "../components/AuthForm"
-import { client } from "../utils/newClient"
+import { client } from "../utils/mongodb/newClient"
 
 export default function SignUp() {
   async function signUp(formData: FormData) {

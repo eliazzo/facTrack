@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { client } from "./newClient"
+import { client } from "../mongodb/newClient"
 
 async function insertDocument() {
   try {
