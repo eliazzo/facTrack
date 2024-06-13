@@ -50,9 +50,8 @@ export default function Login() {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: 60 * 60,
-      }) // 1 hour
+      })
     }
-    console.log("is cookie: ", cookies().has("token"))
 
     redirect("/")
   }
