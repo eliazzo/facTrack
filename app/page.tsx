@@ -4,7 +4,6 @@ import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 
 import { Button } from "./components/Button"
-import { handleClick } from "./utils/temporaryHandleClick"
 import { TranscriptCard } from "./components/TranscriptCard"
 import { SelectedTranscript } from "./components/SelectedTranscript"
 
