@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 import { cookies } from "next/headers"
 
 import AuthForm from "../components/AuthForm"
-import { client } from "../mongodb/newClient"
+import { client } from "../utils/newClient"
 
 export default function Login() {
   async function login(formData: FormData) {
