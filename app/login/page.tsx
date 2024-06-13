@@ -44,9 +44,15 @@ export default function Login() {
         expiresIn: "1h",
       })
     }
-    // console.log("create token: ", token)
-    if (token) cookies().set("token", token, { expires: 1, secure: true })
-    // console.log("is cookie: ", cookies().has("token"))
+    if (token) {
+      cookies().set("token", token, {
+        path: "/",
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60,
+      }) // 1 hour
+    }
+    console.log("is cookie: ", cookies().has("token"))
 
     redirect("/")
   }
