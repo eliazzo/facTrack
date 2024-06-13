@@ -30,7 +30,9 @@ npm start
 
 3. **Using the Tool**:
    - Open the application in your browser.
-   - Start a new meeting using google and manually create a meeting transcription.
+   - Start a new meeting using google and manually create a meeting transcription by clicking 'Transcripts' in Activiri
+     ![Screenshot 2024-06-13 at 18 37 39](https://github.com/eliazzo/facTrack/assets/114364165/44bed224-0320-4bfd-8c03-10bc94a285a3)
+
    - Click the ```Get notes``` button on the home page to process and display summarised notes.
 
 ## Contributing
