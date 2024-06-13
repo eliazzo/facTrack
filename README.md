@@ -1,10 +1,10 @@
 # facTrack
 
-facTrack is an AI-powered tool that transcribes and summarises meeting notes in real-time. This tool leverages external APIs for language processing, providing an efficient way to capture and organise meeting discussions.
+facTrack is an AI-powered tool that transcribes and summarises meeting notes in real-time. This tool is designed to be used in conjunction with Google Meet by the Founders and Coders organisation.
 
 ## Installation
 
-To get started, clone the repository and install the necessary dependencies using npm:
+🏁 To get started, clone the repository and install the necessary dependencies using npm:
 
 ```bash
 git clone https://github.com/yourusername/facTrack.git
@@ -14,9 +14,15 @@ npm install
 
 ## Usage
 
-1. **Configuration**: Ensure you have the necessary API keys for the external language processing services. Add these keys to your environment variables or a configuration file.
+1. **Configuration**: Ensure you have added the necessary keys to your environment variables or a configuration file.
+```
+OPENAI_API_KEY=
+PROJECT_ID=
+MONGODB_URI=
+JWT_TOKEN=
+```
 
-2. **Running the Application**: Start the application by running:
+3. **Running the Application**: Start the application by running:
 
 ```bash
 npm start
@@ -24,8 +30,8 @@ npm start
 
 3. **Using the Tool**:
    - Open the application in your browser.
-   - Start a new meeting and enable the microphone to begin transcribing.
-   - The tool will automatically process and display real-time transcription and summarised notes.
+   - Start a new meeting using google and manually create a meeting transcription.
+   - Click the ```Get notes``` button on the home page to process and display summarised notes.
 
 ## Contributing
 
@@ -45,7 +51,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Authors and Acknowledgment
 
-- **Your Name** - _Initial work_ - [yourusername](https://github.com/yourusername)
+- **Elisabeth Azzopardi** - _Initial work_ - [eliazzo](https://github.com/eliazzo)
 - Thanks to [Founders And Coders](https://www.foundersandcoders.com) for their support and training.
 
 ## Project Status
