@@ -17,6 +17,10 @@ export default function Home() {
     if (cookieToken) setToken(cookieToken)
   }, [])
 
+  const getNotes = () => {
+    console.log("this function will call openai/route.ts")
+  }
+
   const logout = () => {
     Cookies.remove("token")
     router.push("/login")
@@ -25,7 +29,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-row items-center justify-between p-16">
       <div className="flex flex-col">
-        <Button text={"Get notes"} onClick={handleClick} />
+        <Button text={"Get notes"} onClick={getNotes} />
         <TranscriptCard />
       </div>
       <SelectedTranscript />
