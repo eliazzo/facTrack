@@ -1,5 +1,5 @@
-require("dotenv").config()
-const client = require("../newClient")
+import "dotenv/config"
+import { client } from "./newClient"
 
 async function insertDocument() {
   try {
@@ -17,10 +17,6 @@ async function insertDocument() {
     }
 
     const result = await transcripts.insertOne(doc)
-
-    console.log(
-      `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`
-    )
   } finally {
     await client.close()
   }

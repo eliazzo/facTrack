@@ -1,4 +1,4 @@
-const client = require("../newClient")
+import { client } from "./newClient"
 
 async function getDocument() {
   try {
