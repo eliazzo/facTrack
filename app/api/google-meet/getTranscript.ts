@@ -1,4 +1,3 @@
-const { authorize } = require("./authorize")
 const { ConferenceRecordsServiceClient } = require("@google-apps/meet").v2
 
 /** authStructure type created with gpt */
@@ -93,7 +92,7 @@ async function callListTranscripts(authClient: AuthStructure) {
 
 /* Get transcript entry using latest transcript name */
 
-async function callGetTranscriptEntry(authClient: AuthStructure) {
+export async function callGetTranscriptEntry(authClient: AuthStructure) {
   const name = await callListTranscripts(authClient)
 
   const meetClient = new ConferenceRecordsServiceClient({
@@ -114,5 +113,3 @@ async function callGetTranscriptEntry(authClient: AuthStructure) {
 
   return transcriptEntries.map((entry) => entry.text).join(" ")
 }
-
-module.exports = { authorize, callGetTranscriptEntry }

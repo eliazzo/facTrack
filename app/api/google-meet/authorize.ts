@@ -60,7 +60,7 @@ async function saveCredentials(client: any) {
  * Load or request or authorization to call APIs.
  *
  */
-async function authorize() {
+export async function authorize() {
   let client = await loadSavedCredentialsIfExist()
   if (client) {
     return client
@@ -79,5 +79,3 @@ async function authorize() {
  * Creates a new meeting space.
 @param {OAuth2Client} authClient An authorized OAuth2 client.
 **/
-
-module.exports = { authorize }

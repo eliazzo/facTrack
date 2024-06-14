@@ -1,10 +1,10 @@
-const { authorize } = require("../google-meet/authorize")
-const { callGetTranscriptEntry } = require("../google-meet/getTranscript")
-require("dotenv").config()
-const OpenAI = require("openai")
+import { authorize } from "../google-meet/authorize"
+import { callGetTranscriptEntry } from "../google-meet/getTranscript"
+import "dotenv/config"
+import OpenAI from "openai"
 
 const openai = new OpenAI({
-  authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+  apiKey: process.env.OPENAI_API_KEY,
   organization: "org-nYbqgo3O0LNnYYAoKAmApBfx",
   project: process.env.PROJECT_ID,
 })
