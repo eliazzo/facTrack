@@ -82,5 +82,3 @@ export async function authorize(): Promise<OAuth2Client> {
  * Creates a new meeting space.
 @param {OAuth2Client} authClient An authorized OAuth2 client.
 **/
-
-authorize()
