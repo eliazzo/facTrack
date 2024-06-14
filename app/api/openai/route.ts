@@ -1,7 +1,8 @@
-import { authorize } from "../google-meet/authorize"
-import { callGetTranscriptEntry } from "../google-meet/getTranscript"
 import "dotenv/config"
 import OpenAI from "openai"
+
+import { authorize } from "../google-meet/authorize"
+import { callGetTranscriptEntry } from "../google-meet/getTranscript"
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
