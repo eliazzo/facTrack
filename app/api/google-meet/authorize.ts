@@ -1,4 +1,4 @@
-const fs = require("fs").promises
+import fs from "fs/promises"
 import path from "path"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
@@ -27,11 +27,11 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
     const content = await fs.readFile(TOKEN_PATH)
-    const credentials = JSON.parse(content)
+    const credentials = JSON.parse(content.toString())
     /**
      * A type assertion is being used here as the documentation states the type is OAuth2Client
      */
-    return auth.fromJSON(credentials)
+    return auth.fromJSON(credentials) as OAuth2Client
   } catch (err) {
     console.log(err)
     return null
@@ -48,7 +48,7 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
 async function saveCredentials(client: OAuth2Client): Promise<void> {
   console.log(client)
   const content = await fs.readFile(CREDENTIALS_PATH)
-  const keys = JSON.parse(content)
+  const keys = JSON.parse(content.toString())
   const key = keys.installed || keys.web
   const payload = JSON.stringify({
     type: "authorized_user",
