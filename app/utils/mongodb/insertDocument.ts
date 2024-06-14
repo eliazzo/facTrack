@@ -1,6 +1,6 @@
 import "dotenv/config"
 import { client } from "./newClient"
-import processTranscript from "../../api/openai/route"
+import { processTranscript } from "../../api/openai/route"
 
 async function insertDocument() {
   try {

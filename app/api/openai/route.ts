@@ -17,7 +17,7 @@ const openai = new OpenAI({
   project: process.env.PROJECT_ID,
 })
 
-export default async function processTranscript(): Promise<FormattedResponse> {
+export async function processTranscript(): Promise<FormattedResponse> {
   const transcription = await authorize()
     .then(callGetTranscriptEntry)
     .catch(console.error)
