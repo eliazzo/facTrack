@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write --ignore-path .gitignore . ",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "jest"
   },
   "dependencies": {
     "@google-apps/meet": "^0.2.0",
@@ -24,7 +25,9 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/jest": "^29.5.12",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
@@ -33,9 +36,13 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "husky": "^9.0.11",
+    "install": "^0.13.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.5",
+    "npm": "^10.8.1",
     "postcss": "^8",
     "prettier": "^3.3.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.4.5"
   }
 }
