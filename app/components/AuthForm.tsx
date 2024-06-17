@@ -15,10 +15,10 @@ export const AuthForm: React.FC<AuthFormProps> = ({
     <div className="flex min-h-screen flex-col items-center p-16">
       <h1>{title}</h1>
       <form action={onSubmit}>
-        <p>username</p>
-        <input placeholder="username" name="username"></input>
-        <p>password</p>
-        <input placeholder="password" name="password"></input>
+        <label>username</label>
+        <input placeholder="username" name="username" required></input>
+        <label>password</label>
+        <input placeholder="password" name="password" required></input>
         <button type="submit">{action}</button>
       </form>
     </div>
