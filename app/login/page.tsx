@@ -10,13 +10,10 @@ import { client } from "../utils/mongodb/newClient"
 export default function Login() {
   async function login(formData: FormData) {
     "use server"
-    const data = {
+    const { username, password } = {
       username: formData.get("username"),
       password: formData.get("password"),
     }
-
-    const username = data.username
-    const password = data.password
 
     if (typeof username !== "string" || typeof password !== "string") {
       console.log("Invalid form data")
