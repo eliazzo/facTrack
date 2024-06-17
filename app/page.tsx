@@ -9,12 +9,6 @@ import { SelectedTranscript } from "./components/SelectedTranscript"
 
 export default function Home() {
   const router = useRouter()
-  const [token, setToken] = useState("")
-
-  useEffect(() => {
-    const cookieToken = Cookies.get("token")
-    if (cookieToken) setToken(cookieToken)
-  }, [])
 
   const getNotes = () => {
     console.log("this function will call openai/route.ts")
