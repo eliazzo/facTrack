@@ -1,9 +1,8 @@
-const fs = require("fs").promises
-const path = require("path")
-const process = require("process")
-const { authenticate } = require("@google-cloud/local-auth")
-
-const { auth } = require("google-auth-library")
+import fs from "fs/promises"
+import path from "path"
+import process from "process"
+import { authenticate } from "@google-cloud/local-auth"
+import { auth, OAuth2Client } from "google-auth-library"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -24,11 +23,15 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
  *
  * @return {Promise<OAuth2Client|null>}
  */
-async function loadSavedCredentialsIfExist() {
+
+async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
     const content = await fs.readFile(TOKEN_PATH)
-    const credentials = JSON.parse(content)
-    return auth.fromJSON(credentials)
+    const credentials = JSON.parse(content.toString())
+    /**
+     * A type assertion is being used here as the documentation states the type is OAuth2Client
+     */
+    return auth.fromJSON(credentials) as OAuth2Client
   } catch (err) {
     console.log(err)
     return null
@@ -42,10 +45,10 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 
-async function saveCredentials(client: any) {
+async function saveCredentials(client: OAuth2Client): Promise<void> {
   console.log(client)
   const content = await fs.readFile(CREDENTIALS_PATH)
-  const keys = JSON.parse(content)
+  const keys = JSON.parse(content.toString())
   const key = keys.installed || keys.web
   const payload = JSON.stringify({
     type: "authorized_user",
@@ -60,7 +63,7 @@ async function saveCredentials(client: any) {
  * Load or request or authorization to call APIs.
  *
  */
-async function authorize() {
+export async function authorize(): Promise<OAuth2Client> {
   let client = await loadSavedCredentialsIfExist()
   if (client) {
     return client
@@ -79,5 +82,3 @@ async function authorize() {
  * Creates a new meeting space.
 @param {OAuth2Client} authClient An authorized OAuth2 client.
 **/
-
-module.exports = { authorize }

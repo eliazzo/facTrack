@@ -1,43 +1,9 @@
-const { authorize } = require("./authorize")
 const { ConferenceRecordsServiceClient } = require("@google-apps/meet").v2
-
-/** authStructure type created with gpt */
-const kCapture = Symbol("kCapture")
-
-interface Credentials {
-  refresh_token: string
-}
-
-interface DefaultTransporter {}
-
-interface UserRefreshClient {
-  _events: Record<string, any>
-  _eventsCount: number
-  _maxListeners?: number
-  transporter: DefaultTransporter
-  credentials: Credentials
-  eagerRefreshThresholdMillis: number
-  forceRefreshOnFailure: boolean
-  certificateCache: Record<string, any>
-  certificateExpiry: Date | null
-  certificateCacheFormat: string
-  refreshTokenPromises: Map<any, any>
-  _clientId: string
-  _clientSecret: string
-  redirectUri?: string
-  _refreshToken: string
-  quotaProjectId?: string
-  [key: symbol]: boolean
-}
-
-interface AuthStructure {
-  credentials: any
-  authClient: UserRefreshClient
-}
+import { OAuth2Client } from "google-auth-library"
 
 /* List conference records */
 
-async function callListConferenceRecords(authClient: AuthStructure) {
+async function callListConferenceRecords(authClient: OAuth2Client) {
   // Instantiates a client
   const meetClient = new ConferenceRecordsServiceClient({
     authClient: authClient,
@@ -58,7 +24,7 @@ async function callListConferenceRecords(authClient: AuthStructure) {
 
 /* Get latest transcript name using conference records */
 
-async function callListTranscripts(authClient: AuthStructure) {
+async function callListTranscripts(authClient: OAuth2Client) {
   const parents = await callListConferenceRecords(authClient)
 
   // Instantiates a client
@@ -93,7 +59,7 @@ async function callListTranscripts(authClient: AuthStructure) {
 
 /* Get transcript entry using latest transcript name */
 
-async function callGetTranscriptEntry(authClient: AuthStructure) {
+export async function callGetTranscriptEntry(authClient: OAuth2Client) {
   const name = await callListTranscripts(authClient)
 
   const meetClient = new ConferenceRecordsServiceClient({
@@ -114,5 +80,3 @@ async function callGetTranscriptEntry(authClient: AuthStructure) {
 
   return transcriptEntries.map((entry) => entry.text).join(" ")
 }
-
-module.exports = { authorize, callGetTranscriptEntry }
