@@ -22,7 +22,7 @@ export default function Login() {
 
     const database = client.db("facTrack")
     const users = database.collection("users")
-    const query = { username: username }
+    const query = { username }
     const user = await users.findOne(query)
 
     if (!user) {
