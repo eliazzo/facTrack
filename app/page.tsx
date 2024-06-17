@@ -1,16 +1,32 @@
-import { GetTranscriptButton } from "./components/getTranscriptButton"
+"use client"
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
+import { useRouter } from "next/navigation"
 
-const { TranscriptCard } = require("./components/TranscriptCard")
-const { SelectedTranscript } = require("./components/SelectedTranscript")
+import { Button } from "./components/Button"
+import { TranscriptCard } from "./components/TranscriptCard"
+import { SelectedTranscript } from "./components/SelectedTranscript"
 
 export default function Home() {
+  const router = useRouter()
+
+  const getNotes = () => {
+    console.log("this function will call openai/route.ts")
+  }
+
+  const logout = () => {
+    Cookies.remove("token")
+    router.push("/login")
+  }
+
   return (
     <main className="flex min-h-screen flex-row items-center justify-between p-16">
       <div className="flex flex-col">
-        <GetTranscriptButton />
+        <Button text={"Get notes"} onClick={getNotes} />
         <TranscriptCard />
       </div>
       <SelectedTranscript />
+      <Button text={"Log out"} onClick={logout} />
     </main>
   )
 }
