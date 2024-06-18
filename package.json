@@ -14,8 +14,10 @@
   "dependencies": {
     "@google-apps/meet": "^0.2.0",
     "@google-cloud/local-auth": "^2.1.0",
+    "@types/testing-library__jest-dom": "^6.0.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
+    "jest-dom": "^4.0.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.7.0",

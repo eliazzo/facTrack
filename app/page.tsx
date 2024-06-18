@@ -1,5 +1,4 @@
 "use client"
-import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 
@@ -21,6 +20,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-row items-center justify-between p-16">
+      <h1>facTrack</h1>
       <div className="flex flex-col">
         <Button text={"Get notes"} onClick={getNotes} />
         <TranscriptCard />

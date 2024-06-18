@@ -3,11 +3,13 @@
 export const SelectedTranscript: React.FC = (/* meeting card data */) => {
   return (
     <div className="min-h-screen border-solid border-2 border-black m-2 p-10 w-8/12">
-      <h1 className="text-center">Curriculum Concotions</h1>
+      <h1 className="text-center" id="title">
+        Curriculum Concoctions
+      </h1>
       <h2 className="mt-5">Attendees</h2>
-      <p>Ben, Sarah, Dan, Nich</p>
+      <p id="attendees">Ben, Sarah, Dan, Nich</p>
       <h2>key discussion points</h2>
-      <p>
+      <p id="discussion points">
         National apprenticeship week content: Ben and Sarah are focusing on
         creating content for National apprenticeship week and attending events
         and conferences related to it. Networking events: Sarah is attending
@@ -24,7 +26,7 @@ export const SelectedTranscript: React.FC = (/* meeting card data */) => {
         upcoming events.
       </p>
       <h2> Actions </h2>
-      <p>
+      <p id="actions">
         Action Items Catch up with Beth and Nick on other projects and attend a
         call with More Digital. Assist with the case study for National
         Apprenticeship Week. Provide content for the newsletter regarding
