@@ -8,11 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write --ignore-path .gitignore . ",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest"
   },
   "dependencies": {
     "@google-apps/meet": "^0.2.0",
     "@google-cloud/local-auth": "^2.1.0",
+    "@testing-library/jest-dom": "^6.4.6",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "js-cookie": "^3.0.5",
@@ -24,18 +26,22 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.0.0",
     "@types/bcrypt": "^5.0.2",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "husky": "^9.0.11",
+    "jsdom": "^24.1.0",
     "postcss": "^8",
     "prettier": "^3.3.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^1.6.0"
   }
 }
