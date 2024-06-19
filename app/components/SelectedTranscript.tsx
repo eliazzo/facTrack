@@ -2,7 +2,10 @@
 
 export const SelectedTranscript: React.FC = (/* meeting card data */) => {
   return (
-    <div className="min-h-screen border-solid border-2 border-black m-2 p-10 w-8/12">
+    <div
+      data-testid="selected-transcript"
+      className="min-h-screen border-solid border-2 border-black m-2 p-10 w-8/12"
+    >
       <h1 className="text-center">Curriculum Concotions</h1>
       <h2 className="mt-5">Attendees</h2>
       <p>Ben, Sarah, Dan, Nich</p>
