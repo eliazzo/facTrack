@@ -1,6 +1,7 @@
+"use server"
 import { client } from "./newClient"
 
-async function getDocument() {
+export async function getDocument() {
   try {
     const database = client.db("facTrack")
     const transcripts = database.collection("transcripts")
