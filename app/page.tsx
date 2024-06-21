@@ -6,13 +6,26 @@ import { Button } from "./components/Button"
 import { TranscriptCard } from "./components/TranscriptCard"
 import { SelectedTranscript } from "./components/SelectedTranscript"
 import { getDocument } from "./utils/mongodb/getDocument"
+import { useState } from "react"
+import type { Document, WithId } from "mongodb"
 
 export default function Home() {
+  const [notes, setNotes] = useState<Document | null>()
   const router = useRouter()
 
-  const getNotes = () => {
-    const latestDoc = getDocument()
-    console.log({ latestDoc })
+  const transformDocument = (doc: WithId<Document>) => {
+    return {
+      ...doc,
+      _id: doc._id.toString(), // Convert ObjectId to string
+    }
+  }
+
+  const getNotes = async () => {
+    const latestDoc = await getDocument()
+    if (latestDoc) {
+      const transformedDoc = transformDocument(latestDoc)
+      setNotes(transformedDoc)
+    }
   }
 
   const logout = () => {
@@ -29,7 +42,7 @@ export default function Home() {
         <Button text={"Get notes"} onClick={getNotes} />
         <TranscriptCard />
       </div>
-      <SelectedTranscript />
+      <SelectedTranscript selectedNotes={notes} />
       <Button text={"Log out"} onClick={logout} />
     </main>
   )

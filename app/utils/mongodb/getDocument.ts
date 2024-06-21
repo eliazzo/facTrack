@@ -8,7 +8,7 @@ export async function getDocument() {
 
     const cursor = await transcripts.find({}).sort({ _id: -1 }).limit(1)
     for await (const doc of cursor) {
-      console.dir(doc)
+      return doc
     }
   } finally {
     await client.close()
