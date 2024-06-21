@@ -10,6 +10,8 @@ export async function getDocument() {
     for await (const doc of cursor) {
       return doc
     }
+  } catch (error) {
+    console.error(error)
   } finally {
     await client.close()
   }

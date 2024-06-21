@@ -3,7 +3,6 @@ import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 
 import { Button } from "./components/Button"
-import { TranscriptCard } from "./components/TranscriptCard"
 import { SelectedTranscript } from "./components/SelectedTranscript"
 import { getDocument } from "./utils/mongodb/getDocument"
 import { useState } from "react"
@@ -28,6 +27,10 @@ export default function Home() {
     }
   }
 
+  const getText = () => {
+    console.log("this function will download the text")
+  }
+
   const logout = () => {
     Cookies.remove("token")
     router.push("/login")
@@ -40,10 +43,10 @@ export default function Home() {
     >
       <div className="flex flex-col">
         <Button text={"Get notes"} onClick={getNotes} />
-        <TranscriptCard />
+        <Button text={"Download text"} onClick={getText} />
+        <Button text={"Log out"} onClick={logout} />
       </div>
       <SelectedTranscript selectedNotes={notes} />
-      <Button text={"Log out"} onClick={logout} />
     </main>
   )
 }

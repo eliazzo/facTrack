@@ -1,6 +1,6 @@
 "use client"
 
-export const TranscriptCard: React.FC = (/* meeting card data */) => {
+export const TranscriptCard: React.FC = () => {
   return (
     <div
       data-testid="transcript-card"
