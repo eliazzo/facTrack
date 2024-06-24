@@ -8,6 +8,10 @@ type SelectedTranscriptProps = {
 export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
   latestDoc,
 }) => {
+  let discussionPoints
+  if (latestDoc) {
+    discussionPoints = latestDoc["key discussion points"]
+  }
   return (
     <div
       data-testid="selected-transcript"
@@ -16,14 +20,20 @@ export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
       <h1 className="text-center">
         {latestDoc ? latestDoc.title : "Meeting title"}
       </h1>
-      <h2 className="mt-5">Attendees</h2>
+      <h2 className="mt-8 mb-5">Attendees</h2>
       <p>{latestDoc ? latestDoc.attendees : "Meeting attendees"}</p>
-      <h2>key discussion points</h2>
+      <h2 className="mt-8 mb-5">key discussion points</h2>
       {latestDoc
-        ? latestDoc["key discussion points"]
+        ? discussionPoints.map((item: string, index: number) => (
+            <li key={index}>{item}</li>
+          ))
         : "key discussion points will go here"}
-      <h2> Actions </h2>
-      <p>{latestDoc ? latestDoc.actions : "actions will go here"}</p>
+      <h2 className="mt-8 mb-5"> Actions </h2>
+      {latestDoc
+        ? latestDoc.actions.map((item: string, index: number) => (
+            <li key={index}>{item}</li>
+          ))
+        : "actions will go here"}
     </div>
   )
 }
