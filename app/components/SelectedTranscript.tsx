@@ -1,6 +1,13 @@
 "use client"
+import type { Document } from "mongodb"
 
-export const SelectedTranscript: React.FC<any> = ({ latestDoc }) => {
+type SelectedTranscriptProps = {
+  latestDoc: Document | null | undefined
+}
+
+export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
+  latestDoc,
+}) => {
   return (
     <div
       data-testid="selected-transcript"
