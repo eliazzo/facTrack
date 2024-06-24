@@ -36,7 +36,7 @@ export default function Home() {
         <Button text={"Get notes"} onClick={getNotes} />
         <TranscriptCard />
       </div>
-      <SelectedTranscript />
+      <SelectedTranscript latestDoc={notes} />
       <Button text={"Log out"} onClick={logout} />
     </main>
   )
