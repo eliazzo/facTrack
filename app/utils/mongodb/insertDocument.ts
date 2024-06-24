@@ -1,8 +1,9 @@
+"use server"
 import "dotenv/config"
 import { client } from "./newClient"
 import { processTranscript } from "../../api/openai/processTranscript"
 
-async function insertDocument() {
+export async function insertDocument() {
   try {
     await client.connect()
 
@@ -15,4 +16,3 @@ async function insertDocument() {
     await client.close()
   }
 }
-insertDocument().catch(console.dir)

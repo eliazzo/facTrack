@@ -3,15 +3,13 @@
 type ButtonProps = {
   text: string
   onClick: any
+  className: string
 }
 
-export const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
+export const Button: React.FC<ButtonProps> = ({ text, onClick, className }) => {
   return (
-    <button
-      className="border-solid border-2 border-black h-10 px-4"
-      onClick={onClick}
-    >
-      <h2>{text}</h2>
+    <button className={className} onClick={onClick}>
+      <p>{text}</p>
     </button>
   )
 }
