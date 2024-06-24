@@ -1,6 +1,7 @@
 "use client"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
+import BeatLoader from "react-spinners/BeatLoader"
 
 import { Button } from "./components/Button"
 import { SelectedTranscript } from "./components/SelectedTranscript"
@@ -11,16 +12,22 @@ import { insertDocument } from "./utils/mongodb/insertDocument"
 
 export default function Home() {
   const [notes, setNotes] = useState<Document | null>()
+  let [loadingTranscript, setLoadingTranscript] = useState(false)
+  let [loadingNotes, setLoadingNotes] = useState(false)
   const router = useRouter()
 
   const processTranscipt = async () => {
+    setLoadingTranscript(true)
     await insertDocument()
+    setLoadingTranscript(false)
     console.log("check database for latest transcript")
   }
 
   const getNotes = async () => {
+    setLoadingNotes(true)
     const latestDoc = await getDocument()
     if (latestDoc) setNotes(latestDoc)
+    setLoadingNotes(false)
   }
 
   /* this useEffect will be removed */
@@ -56,6 +63,14 @@ export default function Home() {
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           }
         />
+        <BeatLoader
+          className="justify-center"
+          color={"#ffffff"}
+          loading={loadingTranscript}
+          size={30}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
         <p className="p-3">
           3. Once you see an alert that tells you the notes have been processed,
           click the Get transcript notes button below
@@ -66,6 +81,14 @@ export default function Home() {
           className={
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           }
+        />
+        <BeatLoader
+          className="justify-center"
+          color={"#ffffff"}
+          loading={loadingNotes}
+          size={30}
+          aria-label="Loading Spinner"
+          data-testid="loader"
         />
         <p className="p-3">
           4. Download the text by clicking the Download button
