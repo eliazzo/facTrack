@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation"
 import { Button } from "./components/Button"
 import { TranscriptCard } from "./components/TranscriptCard"
 import { SelectedTranscript } from "./components/SelectedTranscript"
+import { getDocument } from "./utils/mongodb/getDocument"
 
 export default function Home() {
   const router = useRouter()
 
   const getNotes = () => {
-    console.log("this function will call openai/route.ts")
+    getDocument()
   }
 
   const logout = () => {
