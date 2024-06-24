@@ -9,6 +9,8 @@ import { getDocument } from "./utils/mongodb/getDocument"
 import { useEffect, useState } from "react"
 import type { Document } from "mongodb"
 import { insertDocument } from "./utils/mongodb/insertDocument"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export default function Home() {
   const [notes, setNotes] = useState<Document | null>()
@@ -21,6 +23,7 @@ export default function Home() {
     await insertDocument()
     setLoadingTranscript(false)
     console.log("check database for latest transcript")
+    toast("Meeting notes ready !")
   }
 
   const getNotes = async () => {
@@ -53,15 +56,28 @@ export default function Home() {
           ending)
         </p>
         <p className="p-3">
-          2. After receiving the email, click the Process transcript button
+          2. After receiving the email, click the Process Transcript button
           below
         </p>
         <Button
-          text={"Process transcript"}
+          text={"Process Transcript"}
           onClick={processTranscipt}
           className={
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           }
+        />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          // transition: Bounce,
         />
         <BeatLoader
           className="justify-center"
@@ -72,11 +88,11 @@ export default function Home() {
           data-testid="loader"
         />
         <p className="p-3">
-          3. Once you see an alert that tells you the notes have been processed,
-          click the Get transcript notes button below
+          3. When you see an alert that tells you the transcript has been
+          processed into meeting notes, click the Get Meeting Notes button below
         </p>
         <Button
-          text={"Get transcript notes"}
+          text={"Get Meeting Notes"}
           onClick={getNotes}
           className={
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
