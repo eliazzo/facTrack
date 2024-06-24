@@ -1,16 +1,19 @@
+"use server"
 import { client } from "./newClient"
 
-async function getDocument() {
+export async function getDocument() {
   try {
+    await client.connect()
+
     const database = client.db("facTrack")
     const transcripts = database.collection("transcripts")
 
-    const cursor = await transcripts.find({}).sort({ _id: -1 }).limit(1)
+    const cursor = transcripts.find({}).sort({ _id: -1 }).limit(1)
     for await (const doc of cursor) {
-      console.dir(doc)
+      const { _id, ...plainDoc } = doc
+      return plainDoc
     }
   } finally {
     await client.close()
   }
 }
-getDocument().catch(console.dir)

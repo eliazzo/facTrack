@@ -5,13 +5,22 @@ import { useRouter } from "next/navigation"
 import { Button } from "./components/Button"
 import { TranscriptCard } from "./components/TranscriptCard"
 import { SelectedTranscript } from "./components/SelectedTranscript"
+import { getDocument } from "./utils/mongodb/getDocument"
+import { useEffect, useState } from "react"
+import type { Document } from "mongodb"
 
 export default function Home() {
+  const [notes, setNotes] = useState<Document | null>()
   const router = useRouter()
 
-  const getNotes = () => {
-    console.log("this function will call openai/route.ts")
+  const getNotes = async () => {
+    const latestDoc = await getDocument()
+    if (latestDoc) setNotes(latestDoc)
   }
+
+  useEffect(() => {
+    console.log("Current notes state:", notes)
+  }, [notes])
 
   const logout = () => {
     Cookies.remove("token")
@@ -27,7 +36,7 @@ export default function Home() {
         <Button text={"Get notes"} onClick={getNotes} />
         <TranscriptCard />
       </div>
-      <SelectedTranscript />
+      <SelectedTranscript latestDoc={notes} />
       <Button text={"Log out"} onClick={logout} />
     </main>
   )
