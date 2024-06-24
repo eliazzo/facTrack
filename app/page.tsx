@@ -2,7 +2,7 @@
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 
-import { InstructionButton } from "./components/InstructionButton"
+import { Button } from "./components/Button"
 import { SelectedTranscript } from "./components/SelectedTranscript"
 import { getDocument } from "./utils/mongodb/getDocument"
 import { useEffect, useState } from "react"
@@ -23,6 +23,7 @@ export default function Home() {
     if (latestDoc) setNotes(latestDoc)
   }
 
+  /* this useEffect will be removed */
   useEffect(() => {
     console.log("Current notes state:", notes)
   }, [notes])
@@ -48,7 +49,7 @@ export default function Home() {
           2. After receiving the email, click the Process transcript button
           below
         </p>
-        <InstructionButton
+        <Button
           text={"Process transcript"}
           onClick={processTranscipt}
           className={
@@ -59,7 +60,7 @@ export default function Home() {
           3. Once you see an alert that tells you the notes have been processed,
           click the Get transcript notes button below
         </p>
-        <InstructionButton
+        <Button
           text={"Get transcript notes"}
           onClick={getNotes}
           className={
@@ -84,7 +85,7 @@ export default function Home() {
         </button>
       </div>
       <SelectedTranscript latestDoc={notes} />
-      <div className="p-10 w-1/4">
+      <div className="p-10">
         <button
           onClick={logout}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

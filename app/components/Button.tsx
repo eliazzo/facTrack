@@ -6,14 +6,10 @@ type ButtonProps = {
   className: string
 }
 
-export const InstructionButton: React.FC<ButtonProps> = ({
-  text,
-  onClick,
-  className,
-}) => {
+export const Button: React.FC<ButtonProps> = ({ text, onClick, className }) => {
   return (
     <button className={className} onClick={onClick}>
-      <h2>{text}</h2>
+      <p>{text}</p>
     </button>
   )
 }
