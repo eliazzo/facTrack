@@ -3,7 +3,6 @@ import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 
 import { Button } from "./components/Button"
-import { TranscriptCard } from "./components/TranscriptCard"
 import { SelectedTranscript } from "./components/SelectedTranscript"
 import { getDocument } from "./utils/mongodb/getDocument"
 import { useEffect, useState } from "react"
@@ -36,9 +35,9 @@ export default function Home() {
   return (
     <main
       id="Home"
-      className="flex min-h-screen flex-row items-center justify-between p-16"
+      className="flex min-h-screen flex-row  justify-between p-16"
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col p-10">
         <h1>How to use facTrack</h1>
         <p>
           1. Wait for google to email you notifying you of the transcript
@@ -58,10 +57,11 @@ export default function Home() {
           text={"Download notes"}
           onClick={() => console.log("this will download text to user local")}
         />
-        {/* <TranscriptCard /> */}
       </div>
       <SelectedTranscript latestDoc={notes} />
-      <Button text={"Log out"} onClick={logout} />
+      <div className="p-10">
+        <Button text={"Log out"} onClick={logout} />
+      </div>
     </main>
   )
 }
