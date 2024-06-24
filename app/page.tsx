@@ -39,32 +39,36 @@ export default function Home() {
     >
       <div className="flex flex-col p-10">
         <h1>How to use facTrack</h1>
-        <p>
-          1. Wait for google to email you notifying you of the transcript
-          creation
+        <p className="p-3">
+          1. Check your google inbox for an email notifying you of the
+          transcript creation (this can take a few minutes after the meeting
+          ending)
         </p>
-        <p>
-          2. After receiving the email, click the Process notes button below{" "}
+        <p className="p-3">
+          2. After receiving the email, click the Process transcript button
+          below
         </p>
         <InstructionButton
-          text={"Process notes"}
+          text={"Process transcript"}
           onClick={processTranscipt}
           className={
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           }
         />
-        <p>
+        <p className="p-3">
           3. Once you see an alert that tells you the notes have been processed,
-          click Get notes
+          click the Get transcript notes button below
         </p>
         <InstructionButton
-          text={"Get notes"}
+          text={"Get transcript notes"}
           onClick={getNotes}
           className={
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           }
         />
-        <p>4. Download the text by clicking the Download button</p>
+        <p className="p-3">
+          4. Download the text by clicking the Download button
+        </p>
         <button
           onClick={() => console.log("this will download text to user local")}
           className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
