@@ -3,6 +3,8 @@ import { client } from "./newClient"
 
 export async function getDocument() {
   try {
+    await client.connect()
+
     const database = client.db("facTrack")
     const transcripts = database.collection("transcripts")
 
