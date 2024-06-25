@@ -9,17 +9,22 @@ import { client } from "../utils/mongodb/newClient"
 
 export default function Login() {
   async function login(formData: FormData) {
-    console.log("starting login functions")
-    ;("use server")
+    "use server"
+
+    console.log("starting login function")
+
     const { username, password } = {
       username: formData.get("username"),
       password: formData.get("password"),
     }
     console.log("checking for login data: ", { username, password })
+
     if (typeof username !== "string" || typeof password !== "string") {
       console.log("Invalid form data")
       return
     }
+
+    await client.connect()
 
     const database = client.db("facTrack")
     const users = database.collection("users")

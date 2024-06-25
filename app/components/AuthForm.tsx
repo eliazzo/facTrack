@@ -1,5 +1,3 @@
-"use client"
-
 type AuthFormProps = {
   onSubmit: (formData: FormData) => Promise<void>
   title: string
