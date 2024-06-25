@@ -9,8 +9,9 @@ import { client } from "../utils/mongodb/newClient"
 
 export default function Login() {
   async function login(formData: FormData) {
+    "use server"
+
     console.log("starting login functions")
-    ;("use server")
     const { username, password } = {
       username: formData.get("username"),
       password: formData.get("password"),
