@@ -88,8 +88,8 @@ export default function Home() {
           data-testid="loader"
         />
         <p className="p-3">
-          3. When you see an alert that tells you the transcript has been
-          processed into meeting notes, click the Get Meeting Notes button below
+          3. When you see an alert that tells you the meeting notes are ready,
+          click the Get Meeting Notes button below
         </p>
         <Button
           text={"Get Meeting Notes"}
