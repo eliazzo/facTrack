@@ -26,9 +26,9 @@ export default function Login() {
 
     console.log("client before client.connect(): ", { client })
 
-    await client.connect()
+    // await client.connect()
 
-    console.log("client AFTER client.connect(): ", { client })
+    // console.log("client AFTER client.connect(): ", { client })
 
     const database = client.db("facTrack")
     console.log({ database })
