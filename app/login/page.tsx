@@ -37,9 +37,15 @@ export default function Login() {
     console.log({ users })
     const query = { username }
 
-    const user = await users.findOne(query)
+    let user = null
 
-    console.log({ user })
+    try {
+      user = await users.findOne(query)
+      console.log({ user })
+    } catch (error) {
+      console.error("Error finding user: ", error)
+      return
+    }
 
     if (!user) {
       console.log("user does not exist")
