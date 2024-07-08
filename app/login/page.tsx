@@ -37,40 +37,34 @@ export default function Login() {
     console.log({ users })
     const query = { username }
 
-    let user = null
+    const user = users.findOne(query)
 
-    try {
-      user = await users.findOne(query)
-      console.log({ user })
-    } catch (error) {
-      console.error("Error finding user: ", error)
-      return
-    }
+    console.log({ user })
 
     if (!user) {
       console.log("user does not exist")
       return
     }
 
-    const checkPassword = await bcrypt.compare(password, user.password)
-    if (!checkPassword) {
-      return
-    }
+    // const checkPassword = await bcrypt.compare(password, user.password)
+    // if (!checkPassword) {
+    //   return
+    // }
 
-    let token
-    if (process.env.JWT_TOKEN) {
-      token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
-        expiresIn: "1h",
-      })
-    }
-    if (token) {
-      cookies().set("token", token, {
-        path: "/",
-        httpOnly: false,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60,
-      })
-    }
+    // let token
+    // if (process.env.JWT_TOKEN) {
+    //   token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
+    //     expiresIn: "1h",
+    //   })
+    // }
+    // if (token) {
+    //   cookies().set("token", token, {
+    //     path: "/",
+    //     httpOnly: false,
+    //     secure: process.env.NODE_ENV === "production",
+    //     maxAge: 60 * 60,
+    //   })
+    // }
 
     redirect("/")
   }
