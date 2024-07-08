@@ -46,25 +46,25 @@ export default function Login() {
       return
     }
 
-    // const checkPassword = await bcrypt.compare(password, user.password)
-    // if (!checkPassword) {
-    //   return
-    // }
+    const checkPassword = await bcrypt.compare(password, user.password)
+    if (!checkPassword) {
+      return
+    }
 
-    // let token
-    // if (process.env.JWT_TOKEN) {
-    //   token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
-    //     expiresIn: "1h",
-    //   })
-    // }
-    // if (token) {
-    //   cookies().set("token", token, {
-    //     path: "/",
-    //     httpOnly: false,
-    //     secure: process.env.NODE_ENV === "production",
-    //     maxAge: 60 * 60,
-    //   })
-    // }
+    let token
+    if (process.env.JWT_TOKEN) {
+      token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
+        expiresIn: "1h",
+      })
+    }
+    if (token) {
+      cookies().set("token", token, {
+        path: "/",
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60,
+      })
+    }
 
     redirect("/")
   }
