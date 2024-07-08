@@ -60,6 +60,7 @@ export default function Login() {
         expiresIn: "1h",
       })
     }
+    console.log({ token })
     if (token) {
       cookies().set("token", token, {
         path: "/",
