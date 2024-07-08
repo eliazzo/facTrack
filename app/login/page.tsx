@@ -37,7 +37,7 @@ export default function Login() {
     console.log({ users })
     const query = { username }
 
-    const user = await users.findOne(query)
+    const user = await users.findOne(query, { maxTimeMS: 5000 })
 
     console.log({ user })
 
