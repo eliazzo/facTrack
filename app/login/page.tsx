@@ -24,9 +24,11 @@ export default function Login() {
       return
     }
 
+    console.log({ client })
+
     await client.connect()
 
-    console.log({ client })
+    // console.log({ client })
 
     const database = client.db("facTrack")
     console.log({ database })
