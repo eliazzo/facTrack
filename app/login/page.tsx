@@ -47,6 +47,9 @@ export default function Login() {
     }
 
     const checkPassword = await bcrypt.compare(password, user.password)
+
+    console.log({ checkPassword })
+
     if (!checkPassword) {
       return
     }
