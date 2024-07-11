@@ -1,5 +1,6 @@
 import fs from "fs/promises"
 import path from "path"
+import "dotenv/config"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
@@ -56,9 +57,12 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
   console.log(client)
-  const content = await fs.readFile(CREDENTIALS_PATH)
-  const keys = JSON.parse(content.toString())
-  const key = keys.installed || keys.web
+  // const content = await fs.readFile(CREDENTIALS_PATH)
+  const credentials =
+    process.env.GOOGLE_CREDENTIALS && JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  // const keys = JSON.parse(content.toString())
+  // const key = keys.installed || keys.web
+  const key = credentials.installed || credentials.web
   const payload = JSON.stringify({
     type: "authorized_user",
     client_id: key.client_id,
