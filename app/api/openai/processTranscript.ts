@@ -76,6 +76,6 @@ transcript: """${transcription}"""
   if (!formattedResponse) {
     throw new Error("Failed to parse the formatted response as JSON")
   }
-
+  console.log(formattedResponse)
   return formattedResponse
 }
