@@ -2,7 +2,6 @@
 import { client } from "./newClient"
 
 export async function getDocument() {
-  console.log("getDocument function running")
   try {
     await client.connect()
 

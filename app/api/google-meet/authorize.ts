@@ -3,6 +3,7 @@ import path from "path"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
+import { client } from "/Users/eazzopardi/code/factrack/app/utils/mongodb/newClient"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -26,12 +27,22 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
 
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
-    const content = await fs.readFile(TOKEN_PATH)
-    const credentials = JSON.parse(content.toString())
+    await client.connect()
+
+    const database = client.db("facTrack")
+    const collection = database.collection("google_auth")
+    const result = await collection.findOne()
+    console.log(result && result.token)
+
+    // const content = await fs.readFile(TOKEN_PATH)
+    // const credentials = JSON.parse(content.toString())
+    // console.log({ credentials })
     /**
      * A type assertion is being used here as the documentation states the type is OAuth2Client
      */
-    return auth.fromJSON(credentials) as OAuth2Client
+    // return auth.fromJSON(credentials) as OAuth2Client
+
+    return auth.fromJSON(result && result.token.toString()) as OAuth2Client
   } catch (err) {
     console.log(err)
     return null
