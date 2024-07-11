@@ -19,7 +19,7 @@ export default function SignUp() {
       return
     }
 
-    const hashedPassword = bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     try {
       await users.insertOne({ username, password: hashedPassword })

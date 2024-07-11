@@ -10,6 +10,7 @@ import { client } from "../utils/mongodb/newClient"
 export default function Login() {
   async function login(formData: FormData) {
     "use server"
+
     const { username, password } = {
       username: formData.get("username"),
       password: formData.get("password"),
@@ -23,6 +24,7 @@ export default function Login() {
     const database = client.db("facTrack")
     const users = database.collection("users")
     const query = { username }
+
     const user = await users.findOne(query)
 
     if (!user) {
@@ -31,16 +33,19 @@ export default function Login() {
     }
 
     const checkPassword = await bcrypt.compare(password, user.password)
+
     if (!checkPassword) {
       return
     }
 
     let token
+
     if (process.env.JWT_TOKEN) {
       token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
         expiresIn: "1h",
       })
     }
+
     if (token) {
       cookies().set("token", token, {
         path: "/",
