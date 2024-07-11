@@ -68,7 +68,7 @@ export default function Home() {
         />
         <ToastContainer
           position="top-center"
-          autoClose={5000}
+          autoClose={3000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -77,10 +77,9 @@ export default function Home() {
           draggable
           pauseOnHover
           theme="light"
-          // transition: Bounce,
         />
         <BeatLoader
-          className="justify-center"
+          className="justify-center my-6"
           color={"#ffffff"}
           loading={loadingTranscript}
           size={30}
@@ -99,7 +98,7 @@ export default function Home() {
           }
         />
         <BeatLoader
-          className="justify-center"
+          className="justify-center my-6"
           color={"#ffffff"}
           loading={loadingNotes}
           size={30}
