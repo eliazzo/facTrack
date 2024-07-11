@@ -57,9 +57,11 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
   console.log(client)
-  // const content = await fs.readFile(CREDENTIALS_PATH)
+  const content = await fs.readFile(CREDENTIALS_PATH)
+  console.log("content from credentials.json file: ", content)
   const credentials =
     process.env.GOOGLE_CREDENTIALS && JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  console.log("content from credentials env variabele ", credentials)
   // const keys = JSON.parse(content.toString())
   // const key = keys.installed || keys.web
   const key = credentials.installed || credentials.web
@@ -81,6 +83,16 @@ export async function authorize(): Promise<OAuth2Client> {
   if (client) {
     return client
   }
+
+  /* updated credentials */
+  const credentials =
+    process.env.GOOGLE_CREDENTIALS && JSON.parse(process.env.GOOGLE_CREDENTIALS)
+  const keyFilePath = path.join(process.cwd(), "tmp_credentials.json")
+
+  await fs.writeFile(keyFilePath, JSON.stringify(credentials))
+
+  //
+
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
@@ -88,10 +100,8 @@ export async function authorize(): Promise<OAuth2Client> {
   if (client.credentials) {
     await saveCredentials(client)
   }
+
+  await fs.unlink(keyFilePath)
+
   return client
 }
-
-/**
- * Creates a new meeting space.
-@param {OAuth2Client} authClient An authorized OAuth2 client.
-**/
