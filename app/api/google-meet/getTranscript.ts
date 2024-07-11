@@ -60,6 +60,7 @@ async function callListTranscripts(authClient: OAuth2Client) {
 /* Get transcript entry using latest transcript name */
 
 export async function callGetTranscriptEntry(authClient: OAuth2Client) {
+  console.log("authClient in callGetTranscriptEntry")
   const name = await callListTranscripts(authClient)
 
   const meetClient = new ConferenceRecordsServiceClient({

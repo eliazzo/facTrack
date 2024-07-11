@@ -18,6 +18,7 @@ const openai = new OpenAI({
 })
 
 export async function processTranscript(): Promise<FormattedResponse> {
+  console.log("process transcript function started")
   const transcription = await authorize()
     .then(callGetTranscriptEntry)
     .catch(console.error)
