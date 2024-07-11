@@ -51,27 +51,38 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
 /**
  * Serializes credentials to a file compatible with GoogleAuth.fromJSON.
  *
- * @param {OAuth2Client} client
+ * @param {OAuth2Client} OAuth2Client
  * @return {Promise<void>}
  */
 
-async function saveCredentials(client: OAuth2Client): Promise<void> {
-  console.log(client)
-  const content = await fs.readFile(CREDENTIALS_PATH)
-  console.log("content from credentials.json file: ", content)
+async function saveCredentials(OAuth2Client: OAuth2Client): Promise<void> {
+  console.log(OAuth2Client)
+  // const content = await fs.readFile(CREDENTIALS_PATH)
+  // console.log("content from credentials.json file: ", content)
   const credentials =
     process.env.GOOGLE_CREDENTIALS && JSON.parse(process.env.GOOGLE_CREDENTIALS)
   console.log("content from credentials env variabele ", credentials)
   // const keys = JSON.parse(content.toString())
   // const key = keys.installed || keys.web
   const key = credentials.installed || credentials.web
+
   const payload = JSON.stringify({
     type: "authorized_user",
     client_id: key.client_id,
     client_secret: key.client_secret,
-    refresh_token: client.credentials.refresh_token,
+    refresh_token: OAuth2Client.credentials.refresh_token,
   })
-  await fs.writeFile(TOKEN_PATH, payload)
+
+  await client.connect()
+
+  const database = client.db("facTrack")
+  const collection = database.collection("google_auth")
+  await collection.insertOne({
+    user_id: "the users id",
+    token: payload,
+  })
+
+  // await fs.writeFile(TOKEN_PATH, payload)
 }
 
 /**
