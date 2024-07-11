@@ -32,7 +32,7 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
     const database = client.db("facTrack")
     const collection = database.collection("google_auth")
     const result = await collection.findOne()
-    console.log(result && result.token)
+    console.log("token from MongoDB: ", result && result.token)
 
     // const content = await fs.readFile(TOKEN_PATH)
     // const credentials = JSON.parse(content.toString())
