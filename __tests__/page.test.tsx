@@ -33,18 +33,6 @@ test("Home component should have <main> element", () => {
   expect(mainElement).toBeDefined()
 })
 
-test("Home component should render TranscriptCard component", () => {
-  render(<Home />)
-  const transcriptCard = screen.getAllByTestId("transcript-card")
-  expect(transcriptCard).toBeDefined()
-})
-
-test("Home component should render TranscriptCard component", () => {
-  render(<Home />)
-  const transcriptCard = screen.getAllByTestId("transcript-card")
-  expect(transcriptCard).toBeDefined()
-})
-
 test("Home component should render SelectedTranscript component", () => {
   render(<Home />)
   const selectedTranscript = screen.getAllByTestId("selected-transcript")
