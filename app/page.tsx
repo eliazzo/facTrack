@@ -106,7 +106,6 @@ export default function Home() {
           loading={loadingNotes}
           size={30}
           aria-label="Loading Spinner"
-          data-testid="loader"
         />
         <p className="p-3">
           4. Download the text by clicking the Download button
