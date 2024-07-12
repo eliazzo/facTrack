@@ -1,6 +1,7 @@
 import { expect, test, vi } from "vitest"
 import { render, screen } from "@testing-library/react"
 import Home from "../app/page"
+import { processTranscript } from "@/app/api/openai/processTranscript"
 
 /*  mock the useRouter function to return an object with a push function, so that it imitates the expected behavior in the Home component */
 vi.mock("next/navigation", () => ({
@@ -9,14 +10,14 @@ vi.mock("next/navigation", () => ({
   }),
 }))
 
-// Mock the OpenAI initialization to prevent the error related to API key
+/* mock OpenAI initialisation */
 vi.mock("openai", () => ({
   OpenAI: vi.fn().mockImplementation(() => ({
     createCompletion: vi.fn().mockResolvedValue({}),
   })),
 }))
 
-// Mock any API interactions or database functions if necessary
+/* mock API interactions and database functions */
 vi.mock("../app/api/openai/processTranscript", () => ({
   processTranscript: vi.fn().mockResolvedValue({}),
 }))
@@ -39,4 +40,12 @@ test("Home component should render SelectedTranscript component", () => {
   expect(selectedTranscript).toBeDefined()
 })
 
-/* button functionality */
+/* button tests */
+
+test("Home component should render all buttons", () => {
+  render(<Home />)
+  expect(screen.getAllByTestId("process-transcript")).toBeDefined()
+  expect(screen.getAllByTestId("get-notes")).toBeDefined()
+  expect(screen.getAllByTestId("download")).toBeDefined()
+  expect(screen.getAllByTestId("log-out")).toBeDefined()
+})
