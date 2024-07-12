@@ -98,6 +98,19 @@ export async function authorize(): Promise<OAuth2Client> {
   /* updated credentials */
   const credentials =
     process.env.GOOGLE_CREDENTIALS && JSON.parse(process.env.GOOGLE_CREDENTIALS)
+
+  /* attempt alternative route to writing a file */
+
+  const { client_id, client_secret, redirect_uris } =
+    credentials.installed || credentials.web
+  client = new OAuth2Client(client_id, client_secret, redirect_uris[0])
+
+  const authUrl = client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES,
+  })
+  //
+
   const keyFilePath = path.join(process.cwd(), "tmp_credentials.json")
 
   await fs.writeFile(keyFilePath, JSON.stringify(credentials))
