@@ -1,5 +1,5 @@
 import { expect, test, vi } from "vitest"
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import Home from "../app/page"
 import { processTranscript } from "@/app/api/openai/processTranscript"
 
@@ -48,4 +48,15 @@ test("Home component should render all buttons", () => {
   expect(screen.getAllByTestId("get-notes")).toBeDefined()
   expect(screen.getAllByTestId("download")).toBeDefined()
   expect(screen.getAllByTestId("log-out")).toBeDefined()
+})
+
+test("Clicking 'Process Transcript' button should set loading state and show toast", async () => {
+  render(<Home />)
+  const processTranscriptButton = screen.getAllByTestId("process-transcript")
+  fireEvent.click(processTranscriptButton[0])
+  expect(screen.getAllByTestId("loader")).toBeDefined()
+  await waitFor(() => {
+    expect(screen.queryByTestId("loader")).toBeNull()
+  })
+  expect(screen.queryByTestId("toast")).toBeDefined()
 })

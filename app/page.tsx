@@ -78,6 +78,7 @@ export default function Home() {
           draggable
           pauseOnHover
           theme="light"
+          data-testid="toast"
         />
         <BeatLoader
           className="justify-center my-6"
