@@ -54,7 +54,7 @@ test("Clicking 'Process Transcript' button should set loading state and show toa
   render(<Home />)
   const processTranscriptButton = screen.getAllByTestId("process-transcript")
   fireEvent.click(processTranscriptButton[0])
-  expect(screen.getAllByTestId("loader")).toBeDefined()
+  expect(screen.queryByTestId("loader")).toBeDefined()
   await waitFor(() => {
     expect(screen.queryByTestId("loader")).toBeNull()
   })
