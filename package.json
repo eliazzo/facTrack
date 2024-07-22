@@ -9,7 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write --ignore-path .gitignore . ",
     "prepare": "husky",
-    "test": "vitest"
+    "test": "vitest --run"
   },
   "dependencies": {
     "@google-apps/meet": "^0.2.0",

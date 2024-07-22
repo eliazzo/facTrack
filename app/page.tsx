@@ -60,6 +60,7 @@ export default function Home() {
           below
         </p>
         <Button
+          dataTestId={"process-transcript"}
           text={"Process Transcript"}
           onClick={processTranscipt}
           className={
@@ -77,6 +78,7 @@ export default function Home() {
           draggable
           pauseOnHover
           theme="light"
+          data-testid="toast"
         />
         <BeatLoader
           className="justify-center my-6"
@@ -91,6 +93,7 @@ export default function Home() {
           click the Get Meeting Notes button below
         </p>
         <Button
+          dataTestId="get-notes"
           text={"Get Meeting Notes"}
           onClick={getNotes}
           className={
@@ -103,12 +106,12 @@ export default function Home() {
           loading={loadingNotes}
           size={30}
           aria-label="Loading Spinner"
-          data-testid="loader"
         />
         <p className="p-3">
           4. Download the text by clicking the Download button
         </p>
         <button
+          data-testid="download"
           onClick={() => console.log("this will download text to user local")}
           className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
         >
@@ -125,6 +128,7 @@ export default function Home() {
       <SelectedTranscript latestDoc={notes} />
       <div className="p-10">
         <button
+          data-testid="log-out"
           onClick={logout}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
