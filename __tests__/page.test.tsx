@@ -9,54 +9,21 @@ vi.mock("next/navigation", () => ({
   }),
 }))
 
-/* mock OpenAI initialization 
+/* mock OpenAI initialization */
 vi.mock("openai", () => ({
   OpenAI: vi.fn().mockImplementation(() => ({
     createCompletion: vi.fn().mockResolvedValue({}),
   })),
 }))
 
-/* mock API interactions and database functions 
+/* mock API interactions and database functions */
 vi.mock("../app/api/openai/processTranscript", () => ({
   processTranscript: vi.fn().mockResolvedValue({}),
 }))
 
 vi.mock("../app/utils/mongodb/insertDocument", () => ({
   insertDocument: vi.fn().mockResolvedValue({}),
-})) 
-
-// Mock the MongoDB client
-vi.mock("mongodb", () => {
-  const mCursor = {
-    sort: vi.fn().mockReturnThis(),
-    limit: vi.fn().mockReturnThis(),
-    [Symbol.asyncIterator]: vi.fn().mockReturnValue({
-      next: () =>
-        Promise.resolve({
-          value: {
-            _id: "mockId",
-            title: "Mock Title",
-            attendees: "Mock Attendees",
-            "key discussion points": ["Mock Point 1"],
-            actions: ["Mock Action 1"],
-          },
-          done: false,
-        }),
-      return: () => ({ done: true }),
-    }),
-  }
-
-  const mCollection = { find: vi.fn(() => mCursor) }
-  const mDb = { collection: vi.fn(() => mCollection) }
-  const mClient = {
-    connect: vi.fn(),
-    db: vi.fn(() => mDb),
-    close: vi.fn(),
-  }
-
-  return { MongoClient: vi.fn(() => mClient) }
-})
-  */
+}))
 
 /* component rendering tests */
 
