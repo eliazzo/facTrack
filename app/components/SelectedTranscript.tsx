@@ -21,19 +21,35 @@ export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
         {latestDoc ? latestDoc.title : "Meeting title"}
       </h1>
       <h2 className="mt-8 mb-5">Attendees</h2>
-      <p>{latestDoc ? latestDoc.attendees : "Meeting attendees"}</p>
-      <h2 className="mt-8 mb-5">key discussion points</h2>
-      {latestDoc
-        ? discussionPoints.map((item: string, index: number) => (
+      {latestDoc && latestDoc.attendees ? (
+        <ul>
+          {latestDoc.attendees.map((attendee: string, index: number) => (
+            <li key={index}>{attendee}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Meeting attendees will be listed here.</p>
+      )}
+      <h2 className="mt-8 mb-5">Key Discussion Points</h2>
+      {latestDoc && latestDoc.keyDiscussionPoints ? (
+        <ul>
+          {latestDoc.keyDiscussionPoints.map((item: string, index: number) => (
             <li key={index}>{item}</li>
-          ))
-        : "key discussion points will go here"}
-      <h2 className="mt-8 mb-5"> Actions </h2>
-      {latestDoc
-        ? latestDoc.actions.map((item: string, index: number) => (
+          ))}
+        </ul>
+      ) : (
+        <p>Key discussion points will go here.</p>
+      )}
+      <h2 className="mt-8 mb-5">Actions</h2>
+      {latestDoc && latestDoc.actions ? (
+        <ul>
+          {latestDoc.actions.map((item: string, index: number) => (
             <li key={index}>{item}</li>
-          ))
-        : "actions will go here"}
+          ))}
+        </ul>
+      ) : (
+        <p>Actions will go here.</p>
+      )}
     </div>
   )
 }
