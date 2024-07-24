@@ -6,9 +6,9 @@ import { callGetTranscriptEntry } from "../google-meet/getTranscript"
 
 type FormattedResponse = {
   title: string
-  attendees: string
-  "key discussion points": string
-  actions: string
+  attendees: string[]
+  keyDiscussionPoints: string[]
+  actions: string[]
 }
 
 const openai = new OpenAI({
@@ -35,9 +35,9 @@ export async function processTranscript(): Promise<FormattedResponse> {
 """
 {
 "title": "curriculum meeting",
-"attendees": "John, Paula, Mike",
-"key discussion points" :  "Reviewed student progress and performance in the current cohort", "Discussed upcoming curriculum changes and improvements", "Addressed the need for additional support for struggling students",
-"actions":  "John to conduct weekly check-ins with struggling students", "Mike to email all students with schedule changes", "Paula to create a new curriculum proposal"
+"attendees": ["John", "Paula", "Mike"],
+"keyDiscussionPoints":  ["Reviewed student progress and performance in the current cohort", "Discussed upcoming curriculum changes and improvements", "Addressed the need for additional support for struggling students"],
+"actions":  ["John to conduct weekly check-ins with struggling students", "Mike to email all students with schedule changes", "Paula to create a new curriculum proposal"]
 }
 """
 
