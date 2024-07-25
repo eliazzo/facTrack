@@ -4,6 +4,7 @@ import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
 import "dotenv/config"
+import { mongoClient } from "../../utils/mongodb/newClient"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -25,13 +26,13 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
  * @return {Promise<OAuth2Client|null>}
  */
 
-let tokenNew: any
+let tokenNew: string
 
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
     // new: get token from tokenNew variable
     const contentNew = tokenNew
-    const credentialsNew = JSON.parse(contentNew.toString())
+    const credentialsNew = JSON.parse(contentNew)
 
     return auth.fromJSON(credentialsNew) as OAuth2Client
 
@@ -72,8 +73,22 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
   /* replace read file with variable assign*/
   tokenNew = payloadNew
   console.log(tokenNew)
-  //await fs.writeFile(TOKEN_PATH, payloadNew)
-  //
+
+  /*insert tokenNew into db */
+  try {
+    await mongoClient.connect()
+
+    const database = mongoClient.db("facTrack")
+    const google_auth = database.collection("google_auth")
+    const doc = {
+      user_id: "the users id",
+      token: tokenNew,
+    }
+
+    await google_auth.insertOne(doc)
+  } finally {
+    await mongoClient.close()
+  }
 
   /* original 
   const content = await fs.readFile(CREDENTIALS_PATH)
