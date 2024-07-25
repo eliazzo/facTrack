@@ -11,8 +11,6 @@ export const getToken = async () => {
   })
 
   const docs = await docsCursor.toArray() // Convert cursor to array of documents
-  console.log("Tokens from database: ", docs[0].token)
+  console.log("Token from database: ", docs[0].token)
   return docs[0].token
 }
-
-// getToken()
