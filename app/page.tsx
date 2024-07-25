@@ -33,7 +33,7 @@ export default function Home() {
     setLoadingNotes(false)
   }
 
-  /* this useEffect will be removed */
+  /* this useEffect will be removed in production */
   useEffect(() => {
     console.log("Current notes state:", notes)
   }, [notes])

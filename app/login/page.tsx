@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 import { cookies } from "next/headers"
 
 import AuthForm from "../components/AuthForm"
-import { client } from "../utils/mongodb/newClient"
+import { mongoClient } from "../utils/mongodb/newClient"
 
 export default function Login() {
   async function login(formData: FormData) {
@@ -21,7 +21,7 @@ export default function Login() {
       return
     }
 
-    const database = client.db("facTrack")
+    const database = mongoClient.db("facTrack")
     const users = database.collection("users")
     const query = { username }
 

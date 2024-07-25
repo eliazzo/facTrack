@@ -1,11 +1,11 @@
 "use server"
-import { client } from "./newClient"
+import { mongoClient } from "./newClient"
 
 export async function getDocument() {
   try {
-    await client.connect()
+    await mongoClient.connect()
 
-    const database = client.db("facTrack")
+    const database = mongoClient.db("facTrack")
     const transcripts = database.collection("transcripts")
 
     const cursor = transcripts.find({}).sort({ _id: -1 }).limit(1)
@@ -14,6 +14,6 @@ export async function getDocument() {
       return plainDoc
     }
   } finally {
-    await client.close()
+    await mongoClient.close()
   }
 }

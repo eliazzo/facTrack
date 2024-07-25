@@ -5,6 +5,7 @@ import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
 import "dotenv/config"
 import { mongoClient } from "../../utils/mongodb/newClient"
+import { getToken } from "../../utils/mongodb/getToken"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -30,8 +31,10 @@ let tokenNew: string
 
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
-    // new: get token from tokenNew variable
-    const contentNew = tokenNew
+    // new: get token from mongodb
+
+    const contentNew = await getToken()
+
     const credentialsNew = JSON.parse(contentNew)
 
     return auth.fromJSON(credentialsNew) as OAuth2Client
@@ -128,4 +131,4 @@ export async function authorize(): Promise<OAuth2Client> {
   console.log("authorisation successful")
   return client
 }
-authorize()
+// authorize()

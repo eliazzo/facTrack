@@ -1,18 +1,19 @@
 "use server"
-import "dotenv/config"
-import { client } from "./newClient"
+import { mongoClient } from "./newClient"
 import { processTranscript } from "../../api/openai/processTranscript"
 
 export async function insertDocument() {
   try {
-    await client.connect()
+    await mongoClient.connect()
+    console.log("Successfully connected to MongoDB")
 
-    const database = client.db("facTrack")
+    const database = mongoClient.db("facTrack")
     const transcripts = database.collection("transcripts")
     const doc = await processTranscript()
 
     await transcripts.insertOne(doc)
   } finally {
-    await client.close()
+    await mongoClient.close()
   }
 }
+// insertDocument()

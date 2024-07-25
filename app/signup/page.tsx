@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import bcrypt from "bcrypt"
 
 import AuthForm from "../components/AuthForm"
-import { client } from "../utils/mongodb/newClient"
+import { mongoClient } from "../utils/mongodb/newClient"
 
 export default function SignUp() {
   async function signUp(formData: FormData) {
@@ -11,7 +11,7 @@ export default function SignUp() {
       username: formData.get("username"),
       password: formData.get("password"),
     }
-    const database = client.db("facTrack")
+    const database = mongoClient.db("facTrack")
     const users = database.collection("users")
 
     if (typeof username !== "string" || typeof password !== "string") {
