@@ -3,6 +3,7 @@ import path from "path"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
+import "dotenv/config"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -23,6 +24,8 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
  *
  * @return {Promise<OAuth2Client|null>}
  */
+
+// let token: any
 
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
@@ -46,9 +49,26 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
  */
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
-  console.log(client)
+  /* new: credentials from env variable */
+  const contentFromEnv = process.env.GOOGLE_CREDENTIALS
+  console.log({ contentFromEnv })
+  const parsedContentFromEnv = contentFromEnv && JSON.parse(contentFromEnv)
+  console.log({ parsedContentFromEnv })
+  const keyNew = parsedContentFromEnv.installed || parsedContentFromEnv.web
+  const payloadNew = JSON.stringify({
+    type: "authorized_user",
+    client_id: keyNew.client_id,
+    client_secret: keyNew.client_secret,
+    refresh_token: client.credentials.refresh_token,
+  })
+  await fs.writeFile(TOKEN_PATH, payloadNew)
+  //
+
+  /* original 
   const content = await fs.readFile(CREDENTIALS_PATH)
+  console.log({ content })
   const keys = JSON.parse(content.toString())
+  console.log({ keys })
   const key = keys.installed || keys.web
   const payload = JSON.stringify({
     type: "authorized_user",
@@ -57,6 +77,7 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
     refresh_token: client.credentials.refresh_token,
   })
   await fs.writeFile(TOKEN_PATH, payload)
+  */
 }
 
 /**
@@ -75,10 +96,7 @@ export async function authorize(): Promise<OAuth2Client> {
   if (client.credentials) {
     await saveCredentials(client)
   }
+  console.log("authorisation successful")
   return client
 }
-
-/**
- * Creates a new meeting space.
-@param {OAuth2Client} authClient An authorized OAuth2 client.
-**/
+authorize()
