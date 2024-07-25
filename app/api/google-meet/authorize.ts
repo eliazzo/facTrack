@@ -18,7 +18,6 @@ const SCOPES = [
 /* The file token.json stores the user's access and refresh tokens, and is
 created automatically when the authorization flow completes for the first
 time. */
-const TOKEN_PATH = path.join(process.cwd(), "token.json")
 const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
 
 /**
@@ -27,21 +26,11 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
  * @return {Promise<OAuth2Client|null>}
  */
 
-let tokenNew: string
-
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
-    // new: get token from mongodb
-
-    const contentNew = await getToken()
-
-    const credentialsNew = JSON.parse(contentNew)
-
-    return auth.fromJSON(credentialsNew) as OAuth2Client
-
-    //original
-    const content = await fs.readFile(TOKEN_PATH)
-    const credentials = JSON.parse(content.toString())
+    const content = await getToken()
+    console.log({ content })
+    const credentials = JSON.parse(content)
     /**
      * A type assertion is being used here as the documentation states the type is OAuth2Client
      */
@@ -60,47 +49,29 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
  */
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
-  /* new: load credentials from env variable */
-  const contentFromEnv = process.env.GOOGLE_CREDENTIALS
-  console.log({ contentFromEnv })
-  const parsedContentFromEnv = contentFromEnv && JSON.parse(contentFromEnv)
-  console.log({ parsedContentFromEnv })
-  const keyNew = parsedContentFromEnv.installed || parsedContentFromEnv.web
-  const payloadNew = JSON.stringify({
-    type: "authorized_user",
-    client_id: keyNew.client_id,
-    client_secret: keyNew.client_secret,
-    refresh_token: client.credentials.refresh_token,
-  })
+  const content = process.env.GOOGLE_CREDENTIALS
 
-  /* replace read file with variable assign*/
-  tokenNew = payloadNew
-  console.log(tokenNew)
-
-  /*insert tokenNew into db */
-  const database = mongoClient.db("facTrack")
-  const google_auth = database.collection("google_auth")
-  const doc = {
-    user_id: "the users id",
-    token: tokenNew,
-  }
-
-  await google_auth.insertOne(doc)
-
-  /* original 
-  const content = await fs.readFile(CREDENTIALS_PATH)
-  console.log({ content })
-  const keys = JSON.parse(content.toString())
-  console.log({ keys })
+  const keys = content && JSON.parse(content)
   const key = keys.installed || keys.web
+
   const payload = JSON.stringify({
     type: "authorized_user",
     client_id: key.client_id,
     client_secret: key.client_secret,
     refresh_token: client.credentials.refresh_token,
   })
-  await fs.writeFile(TOKEN_PATH, payload)
-  */
+
+  const token = payload
+
+  /*insert token into db */
+  const database = mongoClient.db("facTrack")
+  const google_auth = database.collection("google_auth")
+  const doc = {
+    user_id: "the users id",
+    token: token,
+  }
+
+  await google_auth.insertOne(doc)
 }
 
 /**
@@ -108,16 +79,18 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
  *
  */
 export async function authorize(): Promise<OAuth2Client> {
+  const currentDirectory = process.cwd()
+  const directoryContents = await fs.readdir(currentDirectory)
+  console.log(`Current directory: ${directoryContents}`)
+
   let client = await loadSavedCredentialsIfExist()
+  console.log({ client }, "client from loadSavedCredentialsIfExists")
   if (client) {
     return client
   }
-
   client = await authenticate({
     scopes: SCOPES,
-    //@ts-ignore
-    keyfilePath: process.env.GOOGLE_CREDENTIALS,
-    // keyfilePath: CREDENTIALS_PATH,
+    keyfilePath: CREDENTIALS_PATH,
   })
   if (client.credentials) {
     await saveCredentials(client)
