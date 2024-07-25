@@ -78,20 +78,14 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
   console.log(tokenNew)
 
   /*insert tokenNew into db */
-  try {
-    await mongoClient.connect()
-
-    const database = mongoClient.db("facTrack")
-    const google_auth = database.collection("google_auth")
-    const doc = {
-      user_id: "the users id",
-      token: tokenNew,
-    }
-
-    await google_auth.insertOne(doc)
-  } finally {
-    await mongoClient.close()
+  const database = mongoClient.db("facTrack")
+  const google_auth = database.collection("google_auth")
+  const doc = {
+    user_id: "the users id",
+    token: tokenNew,
   }
+
+  await google_auth.insertOne(doc)
 
   /* original 
   const content = await fs.readFile(CREDENTIALS_PATH)
@@ -122,8 +116,8 @@ export async function authorize(): Promise<OAuth2Client> {
   client = await authenticate({
     scopes: SCOPES,
     //@ts-ignore
-    // keyfilePath: process.env.GOOGLE_CREDENTIALS,
-    keyfilePath: CREDENTIALS_PATH,
+    keyfilePath: process.env.GOOGLE_CREDENTIALS,
+    // keyfilePath: CREDENTIALS_PATH,
   })
   if (client.credentials) {
     await saveCredentials(client)

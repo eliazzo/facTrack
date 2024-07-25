@@ -12,8 +12,11 @@ export async function insertDocument() {
     const doc = await processTranscript()
 
     await transcripts.insertOne(doc)
+  } catch (error) {
+    console.error(error)
   } finally {
     await mongoClient.close()
   }
 }
+
 // insertDocument()
