@@ -1,5 +1,6 @@
 import fs from "fs/promises"
 import path from "path"
+import "dotenv/config"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
@@ -88,8 +89,10 @@ export async function authorize(): Promise<OAuth2Client> {
   if (client) {
     return client
   }
+
   client = await authenticate({
     scopes: SCOPES,
+    //@ts-ignore
     keyfilePath: CREDENTIALS_PATH,
   })
   if (client.credentials) {
