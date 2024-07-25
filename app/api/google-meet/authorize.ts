@@ -25,10 +25,17 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
  * @return {Promise<OAuth2Client|null>}
  */
 
-// let token: any
+let tokenNew: any
 
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
+    // new: get token from tokenNew variable
+    const contentNew = tokenNew
+    const credentialsNew = JSON.parse(contentNew.toString())
+
+    return auth.fromJSON(credentialsNew) as OAuth2Client
+
+    //original
     const content = await fs.readFile(TOKEN_PATH)
     const credentials = JSON.parse(content.toString())
     /**
@@ -49,7 +56,7 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
  */
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
-  /* new: credentials from env variable */
+  /* new: load credentials from env variable */
   const contentFromEnv = process.env.GOOGLE_CREDENTIALS
   console.log({ contentFromEnv })
   const parsedContentFromEnv = contentFromEnv && JSON.parse(contentFromEnv)
@@ -61,7 +68,11 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
     client_secret: keyNew.client_secret,
     refresh_token: client.credentials.refresh_token,
   })
-  await fs.writeFile(TOKEN_PATH, payloadNew)
+
+  /* replace read file with variable assign*/
+  tokenNew = payloadNew
+  console.log(tokenNew)
+  //await fs.writeFile(TOKEN_PATH, payloadNew)
   //
 
   /* original 
@@ -89,8 +100,11 @@ export async function authorize(): Promise<OAuth2Client> {
   if (client) {
     return client
   }
+
   client = await authenticate({
     scopes: SCOPES,
+    //@ts-ignore
+    // keyfilePath: process.env.GOOGLE_CREDENTIALS,
     keyfilePath: CREDENTIALS_PATH,
   })
   if (client.credentials) {
