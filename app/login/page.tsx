@@ -53,6 +53,13 @@ export default function Login() {
         secure: process.env.NODE_ENV === "production",
         maxAge: 60 * 60,
       })
+
+      cookies().set("user_id", user._id.toString(), {
+        path: "/",
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60,
+      })
     }
 
     redirect("/")
