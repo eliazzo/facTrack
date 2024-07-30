@@ -1,12 +1,10 @@
-import fs from "fs/promises"
-
 import path from "path"
 import "dotenv/config"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
-import { mongoClient } from "../../utils/mongodb/newClient"
 import { getToken } from "../../utils/mongodb/getToken"
+import { insertToken } from "../../utils/mongodb/insertToken"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -62,18 +60,6 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
   })
 
   const token = payload
-
-  /*insert token into db */
-  const insertToken = async (token: string) => {
-    const database = mongoClient.db("facTrack")
-    const google_auth = database.collection("google_auth")
-    const doc = {
-      user_id: "the users id",
-      token: token,
-    }
-
-    await google_auth.insertOne(doc)
-  }
 
   await insertToken(token)
 }
