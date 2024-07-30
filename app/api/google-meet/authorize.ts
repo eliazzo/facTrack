@@ -64,14 +64,18 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
   const token = payload
 
   /*insert token into db */
-  const database = mongoClient.db("facTrack")
-  const google_auth = database.collection("google_auth")
-  const doc = {
-    user_id: "the users id",
-    token: token,
+  const insertToken = async (token: string) => {
+    const database = mongoClient.db("facTrack")
+    const google_auth = database.collection("google_auth")
+    const doc = {
+      user_id: "the users id",
+      token: token,
+    }
+
+    await google_auth.insertOne(doc)
   }
 
-  await google_auth.insertOne(doc)
+  await insertToken(token)
 }
 
 /**
