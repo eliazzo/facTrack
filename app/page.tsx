@@ -57,7 +57,7 @@ export default function Home() {
         </p>
         <Button
           dataTestId={"process-transcript"}
-          text={"Convert meeting transcription to meeting notes"}
+          text={"Convert transcription to meeting notes"}
           onClick={processTranscipt}
           className={
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/3"
