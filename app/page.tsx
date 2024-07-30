@@ -33,7 +33,7 @@ export default function Home() {
     setLoadingNotes(false)
   }
 
-  /* this useEffect will be removed */
+  /* this useEffect will be removed in production */
   useEffect(() => {
     console.log("Current notes state:", notes)
   }, [notes])
@@ -44,11 +44,8 @@ export default function Home() {
   }
 
   return (
-    <main
-      id="Home"
-      className="flex min-h-screen flex-row  justify-between p-16"
-    >
-      <div className="flex flex-col p-10">
+    <main id="Home" className="flex min-h-screen flex-row justify-between p-16">
+      <div className="flex flex-col p-10 items-center">
         <h1>How to use facTrack</h1>
         <p className="p-3">
           1. Check your google inbox for an email notifying you of the
@@ -56,15 +53,14 @@ export default function Home() {
           ending)
         </p>
         <p className="p-3">
-          2. After receiving the email, click the Process Transcript button
-          below
+          2. After receiving the email, click the button below
         </p>
         <Button
           dataTestId={"process-transcript"}
-          text={"Process Transcript"}
+          text={"Convert transcription to meeting notes"}
           onClick={processTranscipt}
           className={
-            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/3"
           }
         />
         <ToastContainer
@@ -90,14 +86,14 @@ export default function Home() {
         />
         <p className="p-3">
           3. When you see an alert that tells you the meeting notes are ready,
-          click the Get Meeting Notes button below
+          click the button below
         </p>
         <Button
           dataTestId="get-notes"
-          text={"Get Meeting Notes"}
+          text={"Display meeting notes"}
           onClick={getNotes}
           className={
-            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-2/3"
           }
         />
         <BeatLoader

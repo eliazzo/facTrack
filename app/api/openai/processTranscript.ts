@@ -1,3 +1,4 @@
+"use server"
 import "dotenv/config"
 import OpenAI from "openai"
 
@@ -17,10 +18,12 @@ const openai = new OpenAI({
   project: process.env.PROJECT_ID,
 })
 
+//@ts-ignore
 export async function processTranscript(): Promise<FormattedResponse> {
   const transcription = await authorize()
     .then(callGetTranscriptEntry)
     .catch(console.error)
+  console.log("authorize() and callGetTranscriptEntry() ")
   const userMessage = `I will provide a transcript of a work meeting for founders and coders (a non-profit coding bootcamp based in London) \n
         
     Organise this meeting into useful notes. Be highly organised, using headers and bullet points. Give me the output as a single JSON object in the same format as the one I have included at the bottom. Capture the essential details of the meeting in the following format: \n
@@ -75,6 +78,8 @@ transcript: """${transcription}"""
   if (!formattedResponse) {
     throw new Error("Failed to parse the formatted response as JSON")
   }
-
+  console.log(formattedResponse)
   return formattedResponse
 }
+
+// processTranscript()

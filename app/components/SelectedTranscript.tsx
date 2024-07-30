@@ -15,7 +15,7 @@ export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
   return (
     <div
       data-testid="selected-transcript"
-      className="min-h-screen m-2 p-10 w-8/12 bg-slate-50"
+      className="min-h-screen m-2 p-10 w-8/12 bg-slate-50 rounded-2xl"
     >
       <h1 className="text-center">
         {latestDoc ? latestDoc.title : "Meeting title"}

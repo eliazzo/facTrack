@@ -1,8 +1,12 @@
 import fs from "fs/promises"
+
 import path from "path"
+import "dotenv/config"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
+import { mongoClient } from "../../utils/mongodb/newClient"
+import { getToken } from "../../utils/mongodb/getToken"
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -15,8 +19,8 @@ const SCOPES = [
 /* The file token.json stores the user's access and refresh tokens, and is
 created automatically when the authorization flow completes for the first
 time. */
-const TOKEN_PATH = path.join(process.cwd(), "token.json")
-const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
+const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json") // original
+// const CREDENTIALS_PATH = path.resolve(__dirname, "credentials.json")
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -26,8 +30,8 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
 
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
-    const content = await fs.readFile(TOKEN_PATH)
-    const credentials = JSON.parse(content.toString())
+    const content = await getToken()
+    const credentials = JSON.parse(content)
     /**
      * A type assertion is being used here as the documentation states the type is OAuth2Client
      */
@@ -46,17 +50,28 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
  */
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
-  console.log(client)
-  const content = await fs.readFile(CREDENTIALS_PATH)
-  const keys = JSON.parse(content.toString())
+  const content = process.env.GOOGLE_CREDENTIALS
+  const keys = content && JSON.parse(content)
   const key = keys.installed || keys.web
+
   const payload = JSON.stringify({
     type: "authorized_user",
     client_id: key.client_id,
     client_secret: key.client_secret,
     refresh_token: client.credentials.refresh_token,
   })
-  await fs.writeFile(TOKEN_PATH, payload)
+
+  const token = payload
+
+  /*insert token into db */
+  const database = mongoClient.db("facTrack")
+  const google_auth = database.collection("google_auth")
+  const doc = {
+    user_id: "the users id",
+    token: token,
+  }
+
+  await google_auth.insertOne(doc)
 }
 
 /**
@@ -65,9 +80,11 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
  */
 export async function authorize(): Promise<OAuth2Client> {
   let client = await loadSavedCredentialsIfExist()
+  console.log({ client }, "client from loadSavedCredentialsIfExists")
   if (client) {
     return client
   }
+
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
@@ -75,10 +92,7 @@ export async function authorize(): Promise<OAuth2Client> {
   if (client.credentials) {
     await saveCredentials(client)
   }
+  console.log("authorisation successful")
   return client
 }
-
-/**
- * Creates a new meeting space.
-@param {OAuth2Client} authClient An authorized OAuth2 client.
-**/
+authorize()
