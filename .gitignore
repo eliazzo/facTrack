@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # Ignore credentials and token files
-.credentials.json
+credentials.json
 token.json
 .env
 .env.local
