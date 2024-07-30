@@ -1,10 +1,10 @@
 import fs from "fs/promises"
+
 import path from "path"
 import "dotenv/config"
 import process from "process"
 import { authenticate } from "@google-cloud/local-auth"
 import { auth, OAuth2Client } from "google-auth-library"
-import "dotenv/config"
 import { mongoClient } from "../../utils/mongodb/newClient"
 import { getToken } from "../../utils/mongodb/getToken"
 
@@ -19,7 +19,8 @@ const SCOPES = [
 /* The file token.json stores the user's access and refresh tokens, and is
 created automatically when the authorization flow completes for the first
 time. */
-const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
+const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json") // original
+// const CREDENTIALS_PATH = path.resolve(__dirname, "credentials.json")
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -30,7 +31,6 @@ const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json")
 async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
   try {
     const content = await getToken()
-    console.log({ content })
     const credentials = JSON.parse(content)
     /**
      * A type assertion is being used here as the documentation states the type is OAuth2Client
@@ -51,7 +51,6 @@ async function loadSavedCredentialsIfExist(): Promise<OAuth2Client | null> {
 
 async function saveCredentials(client: OAuth2Client): Promise<void> {
   const content = process.env.GOOGLE_CREDENTIALS
-
   const keys = content && JSON.parse(content)
   const key = keys.installed || keys.web
 
@@ -80,10 +79,6 @@ async function saveCredentials(client: OAuth2Client): Promise<void> {
  *
  */
 export async function authorize(): Promise<OAuth2Client> {
-  const currentDirectory = process.cwd()
-  const directoryContents = await fs.readdir(currentDirectory)
-  console.log(`Current directory: ${directoryContents}`)
-
   let client = await loadSavedCredentialsIfExist()
   console.log({ client }, "client from loadSavedCredentialsIfExists")
   if (client) {
@@ -92,7 +87,6 @@ export async function authorize(): Promise<OAuth2Client> {
 
   client = await authenticate({
     scopes: SCOPES,
-    //@ts-ignore
     keyfilePath: CREDENTIALS_PATH,
   })
   if (client.credentials) {
@@ -101,4 +95,4 @@ export async function authorize(): Promise<OAuth2Client> {
   console.log("authorisation successful")
   return client
 }
-// authorize()
+authorize()
