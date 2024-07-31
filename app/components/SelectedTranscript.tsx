@@ -1,5 +1,6 @@
 "use client"
 import type { Document } from "mongodb"
+import { useState } from "react"
 
 type SelectedTranscriptProps = {
   latestDoc: Document | null | undefined
@@ -8,10 +9,24 @@ type SelectedTranscriptProps = {
 export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
   latestDoc,
 }) => {
+  const [attendees, setAttendees] = useState(
+    latestDoc ? latestDoc.attendees : []
+  )
+  const [keyDiscussionPoints, setKeyDiscussionPoints] = useState(
+    latestDoc ? latestDoc.keyDiscussionPoints : []
+  )
   let discussionPoints
   if (latestDoc) {
     discussionPoints = latestDoc["key discussion points"]
   }
+
+  //@ts-ignore
+  const handleEdit = (list, setList, index, newValue) => {
+    const updatedList = [...list]
+    updatedList[index] = newValue
+    setList(updatedList)
+  }
+
   return (
     <div
       data-testid="selected-transcript"
@@ -24,7 +39,15 @@ export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
       {latestDoc && latestDoc.attendees ? (
         <ul>
           {latestDoc.attendees.map((attendee: string, index: number) => (
-            <li key={index}>{attendee}</li>
+            <li key={index}>
+              <input
+                type="text"
+                value={attendee}
+                onChange={(e) =>
+                  handleEdit(attendees, setAttendees, index, e.target.value)
+                }
+              />
+            </li>
           ))}
         </ul>
       ) : (
@@ -34,7 +57,20 @@ export const SelectedTranscript: React.FC<SelectedTranscriptProps> = ({
       {latestDoc && latestDoc.keyDiscussionPoints ? (
         <ul>
           {latestDoc.keyDiscussionPoints.map((item: string, index: number) => (
-            <li key={index}>{item}</li>
+            <li key={index}>
+              <input
+                type="text"
+                value={item}
+                onChange={(e) =>
+                  handleEdit(
+                    keyDiscussionPoints,
+                    setKeyDiscussionPoints,
+                    index,
+                    e.target.value
+                  )
+                }
+              />
+            </li>
           ))}
         </ul>
       ) : (
