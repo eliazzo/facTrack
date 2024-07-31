@@ -14,7 +14,8 @@ npm install
 
 ## Usage
 
-1. **Configuration**: Ensure you have added the necessary keys to your environment variables or a configuration file.
+**Configuration**: Ensure you have added the necessary keys to your environment variables or a configuration file.
+
 ```
 OPENAI_API_KEY=
 PROJECT_ID=
@@ -22,18 +23,37 @@ MONGODB_URI=
 JWT_TOKEN=
 ```
 
-3. **Running the Application**: Start the application by running:
+Create `credentials.json` file with the correct data:
+
+1. Go to the facTrack project inside the Founders and Coders google organisation in the google console (accessible to anyone with a @foundersandcoders email)
+2. Go to Menu > APIs & Services > Credentials
+3. Go to OAuth 2.0 Client IDs and download the fac OAuth client
+4. Save the downloaded JSON file as credentials.json, and move the file to your working directory.
+
+**Running the Application**: Start the application by running:
 
 ```bash
 npm start
 ```
 
-3. **Using the Tool**:
-   - Open the application in your browser.
-   - Start a new meeting using google and manually create a meeting transcription by clicking 'Transcripts' in Activiri
-     ![Screenshot 2024-06-13 at 18 37 39](https://github.com/eliazzo/facTrack/assets/114364165/44bed224-0320-4bfd-8c03-10bc94a285a3)
+**Using the Tool**:
 
-   - Click the ```Get notes``` button on the home page to process and display summarised notes.
+- Open the application in your browser.
+- Start a new meeting using google and manually create a meeting transcription by clicking 'Transcripts' in Activities
+  ![Screenshot 2024-06-13 at 18 37 39](https://github.com/eliazzo/facTrack/assets/114364165/44bed224-0320-4bfd-8c03-10bc94a285a3)
+- When the meeting has ended, head to the home page of the application and follow the instructions.
+
+## Project Status
+
+The project is currently in the beta phase. Future improvements include adding more robust error handling, improving the UI, and enhancing the summarisation prompt.
+
+### Known Issues
+
+The google authentication process can be found in `api/google-meet/authorize.ts`. The google function `authenticate()` asks the user for permission to access their google drive. It reads some credentials from `credentials.json` and creates a token, which is stored in the mongodb database. These credentials are sensitive and allow access to the facTrack google project inside the Founders and Coders google organisation in the google console (see configuration for how to get these credentials). Currently, when `authorize()` is run using ts-node, the behaviour is as expected; a pop up opens in the browser. However, when the function is called by a the user clicking a button, the following error appears.
+
+""
+
+The temporary use is to run authorize() in node to create the token in the database, and then to use the app from the browser as is intended in the long run.
 
 ## Contributing
 
@@ -55,10 +75,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Elisabeth Azzopardi** - _Initial work_ - [eliazzo](https://github.com/eliazzo)
 - Thanks to [Founders And Coders](https://www.foundersandcoders.com) for their support and training.
-
-## Project Status
-
-The project is currently in development. Future improvements include adding more robust error handling, improving the UI, and enhancing the summarisation prompt.
 
 ## Support
 
